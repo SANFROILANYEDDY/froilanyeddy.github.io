@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Boost | Preguntas Frecuentes (FAQ)</title>
+    
+    <style>
+        /* --- PALETA DE COLORES Y ESTILOS BASE (MANTENIENDO LA LÍNEA VISUAL) --- */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+        }
+
+        :root[data-theme="light"] {
+            --bg-color: #eef2f6;            
+            --surface-color: #f8fafc;       
+            --surface-border: #cbd5e1;
+            
+            --text-color: #1e293b;          
+            --text-muted: #475569;
+
+            --primary-color: #6366f1;       
+            --primary-hover: #4f46e5;
+            --accent-purple: #9333ea;
+            --accent-blue: #0284c7;
+
+            /* Tarjetas de temas */
+            --card-lavender: #f3f0ff;
+            --border-lavender: #ddd6fe;
+            --card-sky: #f0f9ff;
+            --border-sky: #bae6fd;
+            --card-mint: #f0fdf4;
+            --border-mint: #bbf7d0;
+            --card-amber: #fff7ed;
+            --border-amber: #fed7aa;
+
+            --shadow: 0 10px 25px -5px rgba(148, 163, 184, 0.2);
+        }
+
+        :root[data-theme="dark"] {
+            --bg-color: #0f172a;            
+            --surface-color: #1e293b;
+            --surface-border: #334155;
+
+            --text-color: #f1f5f9;
+            --text-muted: #94a3b8;
+
+            --primary-color: #818cf8;
+            --primary-hover: #6366f1;
+            --accent-purple: #c084fc;
+            --accent-blue: #38bdf8;
+
+            --card-lavender: #1e1b4b;
+            --border-lavender: #3730a3;
+            --card-sky: #0c4a6e;
+            --border-sky: #0369a1;
+            --card-mint: #064e3b;
+            --border-mint: #047857;
+            --card-amber: #451a03;
+            --border-amber: #78350f;
+
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- MODO NO MOLESTAR --- */
+        body.focus-mode .hide-on-focus {
+            display: none !important;
+        }
+
+        .focus-banner {
+            display: none;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-purple));
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            position: sticky;
+            top: 0;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        body.focus-mode .focus-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 5%;
+        }
+
+        .btn-exit-focus {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .btn-exit-focus:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        /* --- TOAST NOTIFICATIONS --- */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            border-left: 4px solid var(--primary-color);
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            font-size: 0.9rem;
+            font-weight: 600;
+            animation: slideIn 0.3s ease forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* --- NAVBAR --- */
+        .navbar-header {
+            background-color: var(--surface-color);
+            border-bottom: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.9rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-color);
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .navbar {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            color: var(--text-muted);
+            padding: 0.5rem 0.9rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn:hover {
+            color: var(--primary-color);
+            background-color: var(--bg-color);
+        }
+
+        .nav-btn.active {
+            background-color: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .action-btn {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 0.5rem 0.85rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 600;
+        }
+
+        .action-btn:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 24px;
+            height: 3px;
+            background-color: var(--text-color);
+            border-radius: 3px;
+        }
+
+        /* --- HERO BANNER FAQ --- */
+        main {
+            flex: 1;
+        }
+
+        .faq-hero-banner {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(30, 27, 75, 0.85)), 
+                        url('https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80') center/cover;
+            padding: 3.5rem 1.5rem;
+            text-align: center;
+            color: #ffffff;
+            box-shadow: var(--shadow);
+        }
+
+        .faq-hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            padding: 0.35rem 1.1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .faq-hero-banner h2 {
+            font-size: 2.3rem;
+            font-weight: 800;
+            margin-bottom: 0.6rem;
+        }
+
+        .faq-hero-banner p {
+            font-size: 1.05rem;
+            color: #e2e8f0;
+        }
+
+        /* --- CONTENIDO PRINCIPAL DE MÓDULOS FAQ --- */
+        .faq-wrapper {
+            max-width: 1050px;
+            margin: 2.5rem auto 3.5rem auto;
+            padding: 0 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .faq-module {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--surface-border);
+        }
+
+        .module-header h3 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-color);
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .faq-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .faq-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary-color);
+        }
+
+        .faq-img-wrapper {
+            height: 140px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .faq-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .faq-card:hover .faq-img-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .faq-content {
+            padding: 1.3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            flex: 1;
+        }
+
+        .faq-question {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1.4;
+        }
+
+        .faq-answer {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+            background-color: var(--bg-color);
+            padding: 0.85rem;
+            border-radius: 12px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            background-color: var(--surface-color);
+            border-top: 1px solid var(--surface-border);
+            padding: 2rem 1rem 1.5rem 1rem;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer-quote-container {
+            max-width: 600px;
+            margin: 0 auto 1.5rem auto;
+            padding: 1.2rem;
+            background-color: var(--card-lavender);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 14px;
+        }
+
+        .footer-quote-container h3 {
+            font-size: 0.78rem;
+            color: var(--primary-color);
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        #daily-quote {
+            font-size: 0.98rem;
+            color: var(--text-color);
+            font-style: italic;
+            margin-bottom: 0.8rem;
+        }
+
+        .btn-refresh-quote {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            color: var(--text-muted);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-refresh-quote:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .navbar {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--surface-color);
+                flex-direction: column;
+                padding: 1rem;
+                border-bottom: 1px solid var(--surface-border);
+            }
+
+            .navbar.open {
+                display: flex;
+            }
+
+            .faq-hero-banner h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="focus-banner" id="focus-banner">
+        <span>🔕 Modo "No Molestar" Activado — Tu espacio libre de distracciones</span>
+        <button class="btn-exit-focus" id="exit-focus-btn">Salir de Modo Foco</button>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <header class="navbar-header hide-on-focus">
+        <div class="logo">
+            <h1>Study<span>Boost</span></h1>
+        </div>
+
+        <div class="nav-controls">
+            <button class="action-btn" id="focus-btn" title="Modo No Molestar">
+                <span>🔕</span> <small>No Molestar</small>
+            </button>
+
+            <button class="action-btn" id="theme-btn" title="Cambiar tema visual">
+                <span id="theme-icon">🌙</span>
+            </button>
+
+            <button class="menu-toggle" id="menu-toggle" aria-label="Abrir Menú">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <nav class="navbar" id="navbar">
+              <a href="introduccion.php" class="nav-btn active">Inicio</a>
+            <a href="tecnicas.html" class="nav-btn">Técnicas</a>
+            <a href="calendario.php" class="nav-btn">Calendario</a>
+            <a href="videos.html" class="nav-btn">Videos</a>
+            <a href="recordatorio.php" class="nav-btn">Recordatorio</a>
+            <a href="metas.php" class="nav-btn">Metas</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="faq-hero-banner hide-on-focus">
+            <div class="faq-hero-container">
+                <span class="faq-hero-badge">Resuelve tus Dudas Rápido</span>
+                <h2>Kit de Supervivencia: FAQ</h2>
+                <p>Respuestas directas y soluciones reales a las dudas cotidianas sobre estudio, tiempo y concentración.</p>
+            </div>
+        </section>
+
+        <section class="faq-wrapper">
+            
+            <div class="faq-module">
+                <div class="module-header">
+                    <h3>⏱️ Módulo 1: Organización y Tiempo</h3>
+                </div>
+                <div class="faq-grid">
+                    
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=600&q=80" alt="Reloj y tiempo">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 1. "Siento que necesito estudiar 6 horas seguidas para que me vaya bien, ¿estoy loco?"</div>
+                            <div class="faq-answer">🛑 ¡Para ahí! No es cuánto tiempo le echas, es cómo usas ese tiempo. Entre 1.5 y 3 horas al día enfocadas al 100% rinden el doble que 6 horas haciéndote el despistado. La regla de oro: Calidad > Cantidad.</div>
+                        </div>
+                    </div>
+
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=600&q=80" alt="Cronómetro o temporizador">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 2. "La famosa Técnica Pomodoro (25 min trabajo / 5 min descanso) me rompe el ritmo, ¿qué hago?"</div>
+                            <div class="faq-answer">⚙️ ¡Ajusta la máquina! Esos 25 minutos no son una ley grabada en piedra. Prueba el Bloque 50/10 (50 minutos a tope y 10 de desconexión) o el Bloque 45/15. Lo vital: el descanso es sagrado para reiniciar el cerebro, no te lo saltes.</div>
+                        </div>
+                    </div>
+
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=600&q=80" alt="Actividades y deportes">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 3. "Tengo actividades extraescolares y deportes por la tarde, ¿dónde meto el estudio?"</div>
+                            <div class="faq-answer">⏳ Usa los 'Micro-bloques de Tiempo': Aprovecha los "tiempos muertos": 15 minutos en el transporte, 20 minutos antes de entrenar o 10 minutos entre clases para revisar tarjetas de memoria. Sumar cuatro micro-bloques al día equivale a 1 hora completa de estudio ganada.</div>
+                        </div>
+                    </div>
+
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80" alt="Exámenes y notas">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 4. "Tengo 5 exámenes la misma semana, ¿por dónde demonios empiezo?"</div>
+                            <div class="faq-answer">🗂️ Aplica la Matriz de Ataque: Ataca primero lo más difícil o largo. Intercala materias: no estudies 3 asignaturas pesadas el mismo día (mezcla una difícil como Matemáticas con una más amigable como Historia).</div>
+                        </div>
+                    </div>
+
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80" alt="Cerebro activo">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 5. "¿Cómo sé qué materia estudiar primero si tengo varias el mismo día?"</div>
+                            <div class="faq-answer">🧠 Aplica la Regla de la 'Tragada de Sapo': Empieza siempre por la asignatura que te resulte más difícil o pesada mientras tu cerebro está fresco y con la energía al 100%. Dejar lo difícil para el final genera procrastinación.</div>
+                        </div>
+                    </div>
+
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=600&q=80" alt="Agenda y planificación">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 6. "¿Qué hago si planifico mi día pero nunca cumplo lo que me propongo?"</div>
+                            <div class="faq-answer">📉 Ajusta la dosis: El error común es crear agendas irreales. Comprométete con metas muy pequeñas para empezar (ej. "Hoy solo voy a hacer 10 minutos de Historia"). Una vez que rompes la inercia de empezar, es fácil continuar.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="faq-module">
+                <div class="module-header">
+                    <h3>🧠 Módulo 2: Memorización Rápida y Fija</h3>
+                </div>
+                <div class="faq-grid">
+                    
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=600&q=80" alt="Estudiando libros">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 7. "¿Cómo le hago para que no se me olvide todo a los dos días del examen?"</div>
+                            <div class="faq-answer">🔄 Activa la Repetición Espaciada: Si estudias algo hoy, dale una repasada rápida en el Día 1, Día 3, Día 7 y Día 15. Con esto le mandas el mensaje a tu cerebro de que la información debe guardarse a largo plazo.</div>
+                        </div>
+                    </div>
+
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="Tarjetas de estudio">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 8. "¿Las Flashcards (tarjetas de memoria) valen la pena o son perder el tiempo?"</div>
+                            <div class="faq-answer">🃏 Son una mina de oro. Te obligan a hacer Evocación Activa (exigirle a tu cerebro que recuerde la respuesta antes de dar vuelta la tarjeta). Prueba apps como Anki o Quizlet.</div>
+                        </div>
+                    </div>
+
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=600&q=80" alt="Marcadores y colores">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 9. "¿Subrayar con mil colores distintos me ayuda a memorizar?"</div>
+                            <div class="faq-answer">🎨 Alerta de mito: Pintar el libro como arcoíris da la ilusión de trabajo, pero no memoriza por ti. Usa un solo color para palabras clave y escribe en el margen 2 o 3 palabras con tu propia síntesis.</div>
+                        </div>
+                    </div>
+
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80" alt="Simulacro o examen">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 10. "Me sé la teoría perfecta en mi cabeza, pero en el examen me quedo en blanco, ¿por qué?"</div>
+                            <div class="faq-answer">🧊 Es el 'Efecto Ilusión de Conocimiento': Reconocer información al leerla no es lo mismo que recuperarla bajo presión. La solución: ponte a prueba antes haciendo simulacros de examen sin mirar tus notas.</div>
+                        </div>
+                    </div>
+
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80" alt="Grupo de estudio">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 11. "¿Sirve estudiar en grupo o es solo para perder el tiempo?"</div>
+                            <div class="faq-answer">👥 Funciona SI tiene estructura: Cada integrante debe estudiar el tema individualmente en su casa antes, para luego juntarse únicamente a hacerse preguntas, resolver ejercicios difíciles o explicarse conceptos mutuamente.</div>
+                        </div>
+                    </div>
+
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80" alt="Escribir a mano">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 12. "¿Debería hacer mis resúmenes a mano o en la computadora?"</div>
+                            <div class="faq-answer">✍️ A mano para memorizar, en computadora para organizar. Escribir a mano es más lento, lo que obliga a tu cerebro a procesar, resumir y filtrar la información en tiempo real en lugar de solo copiar y pegar.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="faq-module">
+                <div class="module-header">
+                    <h3>📱 Módulo 3: Escudo Antidistracciones y Entorno</h3>
+                </div>
+                <div class="faq-grid">
+                    
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80" alt="Teléfono móvil y redes">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 13. "El teléfono me llama a cada rato, ¿cómo sobrevivo?"</div>
+                            <div class="faq-answer">📵 Regla 'Ojos que no ven, cerebro que no se distrae': Pon el móvil en otra habitación o en la mochila. Si dependes de él, activa el modo No Molestar o usa apps como Forest para evitar la tentación.</div>
+                        </div>
+                    </div>
+
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80" alt="Cama o lugar cómodo">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 14. "¿Es malo estudiar acostado en la cama o en el sofá?"</div>
+                            <div class="faq-answer">🛌 Sí, evítalo: Tu cerebro asocia la cama con el descanso. Si estudias ahí, te dará somnolencia rápidamente y, por el contrario, cuando intentes dormir tu cerebro estará sobreestimulado.</div>
+                        </div>
+                    </div>
+
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80" alt="Audífonos y música">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 15. "Mis papás o hermanos hacen mucho ruido en casa, ¿cómo me concentro?"</div>
+                            <div class="faq-answer">🎧 Crea tu barrera acústica: Utiliza audífonos con ruido marrón, ruido blanco o sonidos de lluvia. Aislan el ruido ambiental mucho mejor que la música instrumental convencional.</div>
+                        </div>
+                    </div>
+
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80" alt="Computadora portátil">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 16. "Tengo que buscar información en la computadora pero me distigo en YouTube o TikTok, ¿qué hago?"</div>
+                            <div class="faq-answer">🛡️ Técnica de la 'Pestaña Única': Cierra lo que no sea tu documento de estudio. Si te entra curiosidad por buscar algo fuera del tema, anótalo en un papel y búscalo únicamente cuando termine tu bloque de trabajo.</div>
+                        </div>
+                    </div>
+
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=600&q=80" alt="Biblioteca silenciosa">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 17. "¿Puedo estudiar en la biblioteca o es mejor encerrarme en mi cuarto?"</div>
+                            <div class="faq-answer">🎧 Varía según tu nivel de enfoque: Si en tu cuarto te da sueño o te distraes, ir a una biblioteca le da la señal a tu cerebro de que es momento de trabajar. Si hay ruido visual, usa audífonos para crear tu propia burbuja.</div>
+                        </div>
+                    </div>
+
+                    <div class="faq-card">
+                        <div class="faq-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80" alt="Actividad física y energía">
+                        </div>
+                        <div class="faq-content">
+                            <div class="faq-question">❓ 18. "Siento que me da sueño o me aburro a los 10 minutos de empezar, ¿qué hago?"</div>
+                            <div class="faq-answer">💦 Cambia el estado de tu cuerpo: El aburrimiento ocurre cuando el cuerpo está demasiado pasivo. Levántate, toma un vaso de agua fría, haz 10 saltos o estírate durante 60 segundos antes de volver a sentarte para reactivar tu cerebro.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="footer hide-on-focus">
+        <div class="footer-quote-container">
+            <h3>💡 Frase Motivadora del Día</h3>
+            <blockquote id="daily-quote">Cargando frase...</blockquote>
+            <button class="btn-refresh-quote" id="refresh-quote-btn">Cambiar Frase 🔄</button>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Study Boost - Proyecto de Innovación BTH Sistemas Informáticos.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 0. SISTEMA DE TOASTS
+            function showToast(message) {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.textContent = message;
+                container.appendChild(toast);
+                setTimeout(() => { toast.remove(); }, 3000);
+            }
+
+            // 1. GESTIÓN DE TEMA Y MODO NO MOLESTAR
+            const themeBtn = document.getElementById('theme-btn');
+            const themeIcon = document.getElementById('theme-icon');
+            const root = document.documentElement;
+
+            const savedTheme = localStorage.getItem('sb-theme') || 'light';
+            setTheme(savedTheme, false);
+
+            themeBtn.addEventListener('click', () => {
+                const currentTheme = root.getAttribute('data-theme');
+                const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+                setTheme(nextTheme, true);
+            });
+
+            function setTheme(theme, notify = false) {
+                root.setAttribute('data-theme', theme);
+                localStorage.setItem('sb-theme', theme);
+                themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+                if(notify) showToast(`Modo ${theme === 'light' ? 'Claro Suave' : 'Oscuro Soft'} activado`);
+            }
+
+            const focusBtn = document.getElementById('focus-btn');
+            const exitFocusBtn = document.getElementById('exit-focus-btn');
+
+            focusBtn.addEventListener('click', () => {
+                document.body.classList.add('focus-mode');
+                showToast('Modo No Molestar Activado 🔕');
+            });
+
+            exitFocusBtn.addEventListener('click', () => {
+                document.body.classList.remove('focus-mode');
+                showToast('Has vuelto al modo normal 🔔');
+            });
+
+            // MENÚ RESPONSIVE
+            const menuToggle = document.getElementById('menu-toggle');
+            const navbar = document.getElementById('navbar');
+            menuToggle.addEventListener('click', () => navbar.classList.toggle('open'));
+
+            // 2. FRASES MOTIVADORAS
+            const quotes = [
+                '"El éxito es la suma de pequeños esfuerzos repetidos día tras día." — Robert Collier',
+                '"La disciplina es el puente entre tus metas y tus logros." — Jim Rohn',
+                '"El secreto para salir adelante es simplemente empezar." — Mark Twain',
+                '"Haz de cada día tu obra maestra." — John Wooden'
+            ];
+
+            const dailyQuoteEl = document.getElementById('daily-quote');
+            const refreshQuoteBtn = document.getElementById('refresh-quote-btn');
+
+            function setRandomQuote() {
+                dailyQuoteEl.textContent = quotes[Math.floor(Math.random() * quotes.length)];
+            }
+
+            refreshQuoteBtn.addEventListener('click', setRandomQuote);
+            setRandomQuote();
+        });
+    </script>
+</body>
+</html>

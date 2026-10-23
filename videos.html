@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Boost | Videotutoriales de las 20 Técnicas</title>
+    <style>
+        /* --- PALETA DE COLORES Y ESTILOS BASE --- */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        }
+
+        :root[data-theme="light"] {
+            --bg-color: #f1f5f9;
+            --surface-color: #ffffff;
+            --surface-border: #e2e8f0;
+            --text-color: #0f172a;
+            --text-muted: #475569;
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-light: #eef2ff;
+            --accent-purple: #8b5cf6;
+            --card-hover-bg: #f8fafc;
+            --shadow: 0 4px 20px -2px rgba(148, 163, 184, 0.15);
+            --shadow-hover: 0 20px 30px -10px rgba(99, 102, 241, 0.22);
+            --badge-bg: #e0e7ff;
+            --badge-text: #3730a3;
+        }
+
+        :root[data-theme="dark"] {
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --surface-border: #334155;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary-color: #818cf8;
+            --primary-hover: #6366f1;
+            --primary-light: #1e1b4b;
+            --accent-purple: #c084fc;
+            --card-hover-bg: #243347;
+            --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 20px 35px -10px rgba(129, 140, 248, 0.3);
+            --badge-bg: #312e81;
+            --badge-text: #c7d2fe;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- MODO NO MOLESTAR --- */
+        body.focus-mode .hide-on-focus {
+            display: none !important;
+        }
+
+        .focus-banner {
+            display: none;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-purple));
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            position: sticky;
+            top: 0;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        body.focus-mode .focus-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 5%;
+        }
+
+        .btn-exit-focus {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* --- TOAST NOTIFICATIONS --- */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            border-left: 4px solid var(--primary-color);
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar-header {
+            background-color: var(--surface-color);
+            border-bottom: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.9rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-color);
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .navbar {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            color: var(--text-muted);
+            padding: 0.5rem 0.9rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn:hover {
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+
+        .nav-btn.active {
+            background-color: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .action-btn {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 0.5rem 0.85rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 600;
+        }
+
+        .action-btn:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 24px;
+            height: 3px;
+            background-color: var(--text-color);
+            border-radius: 3px;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        main {
+            flex: 1;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+            width: 100%;
+        }
+
+        .top-bar-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .btn-back {
+            background-color: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            color: var(--text-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow);
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border-color: var(--primary-color);
+            transform: translateX(-3px);
+        }
+
+        .hero-banner {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+            border-radius: 24px;
+            border: 1px solid var(--surface-border);
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-banner h2 {
+            font-size: 2.3rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--text-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-banner p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 780px;
+            margin: 0 auto 1.5rem auto;
+            line-height: 1.7;
+        }
+
+        /* --- WIDGET DE FRASES MOTIVADORAS --- */
+        .motivation-widget {
+            background-color: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: 20px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+
+        .motivation-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .motivation-icon {
+            font-size: 2rem;
+            background: var(--primary-light);
+            padding: 0.8rem;
+            border-radius: 16px;
+        }
+
+        .motivation-text h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary-color);
+            margin-bottom: 0.2rem;
+            font-weight: 700;
+        }
+
+        .motivation-text p {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-color);
+            font-style: italic;
+        }
+
+        .btn-refresh-quote {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .btn-refresh-quote:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* --- GRID DE VIDEOS PARA LAS 20 TÉCNICAS --- */
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-color);
+            margin: 2.5rem 0 1.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--surface-border);
+        }
+
+        .category-title span.icon-badge {
+            background: var(--primary-light);
+            color: var(--primary-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 12px;
+            font-size: 1.2rem;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .video-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.35s ease;
+            scroll-margin-top: 100px;
+        }
+
+        .video-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .video-card:target {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 190px;
+            background-color: #0b1329;
+            overflow: hidden;
+        }
+
+        .video-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.85;
+            transition: transform 0.5s ease;
+        }
+
+        .video-card:hover .video-container img {
+            transform: scale(1.05);
+        }
+
+        .play-overlay-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(99, 102, 241, 0.9);
+            color: #ffffff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 2px solid #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .play-overlay-btn:hover {
+            background: var(--primary-hover);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-info {
+            padding: 1.4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            flex: 1;
+        }
+
+        .video-badge-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .video-badge {
+            align-self: flex-start;
+            background-color: var(--badge-bg);
+            color: var(--badge-text);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.7rem;
+            border-radius: 10px;
+        }
+
+        .btn-copy-link {
+            background: none;
+            border: 1px solid var(--surface-border);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-copy-link:hover {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+
+        .video-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-color);
+            line-height: 1.3;
+        }
+
+        .video-desc {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        /* --- SECCIÓN DE ENLACE INDIVIDUAL EN CADA TARJETA --- */
+        .card-video-config {
+            background-color: var(--bg-color);
+            border-top: 1px solid var(--surface-border);
+            padding: 0.8rem 1.4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .card-video-config label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-input-row {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .card-input-row input {
+            flex: 1;
+            padding: 0.4rem 0.6rem;
+            font-size: 0.82rem;
+            border-radius: 8px;
+            border: 1px solid var(--surface-border);
+            background-color: var(--surface-color);
+            color: var(--text-color);
+        }
+
+        .btn-save-card {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-save-card:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .video-action-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed var(--surface-border);
+            padding-top: 0.8rem;
+            margin-top: 0.2rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .btn-watch {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border: none;
+            padding: 0.45rem 1rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-watch:hover {
+            background-color: var(--primary-color);
+            color: #ffffff;
+        }
+
+        /* --- MODAL DE REPRODUCTOR DE VIDEO AMPLIADO --- */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .video-modal.active {
+            display: flex;
+        }
+
+        .modal-content-box {
+            background-color: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            width: 100%;
+            max-width: 1100px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .modal-header-bar h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .btn-close-modal {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .btn-close-modal:hover {
+            color: var(--text-color);
+        }
+
+        .modal-player-wrapper {
+            position: relative;
+            width: 100%;
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-player-wrapper video {
+            width: 100%;
+            max-height: 650px;
+            outline: none;
+        }
+
+        .modal-footer-desc {
+            padding: 1.2rem 1.5rem;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            background-color: var(--surface-color);
+            border-top: 1px solid var(--surface-border);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            margin-top: 4rem;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .motivation-widget {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .btn-refresh-quote {
+                width: 100%;
+                text-align: center;
+            }
+            .menu-toggle { display: flex; }
+            .navbar {
+                display: none;
+                position: absolute;
+                top: 100%; left: 0; width: 100%;
+                background-color: var(--surface-color);
+                flex-direction: column;
+                padding: 1rem;
+                border-bottom: 1px solid var(--surface-border);
+            }
+            .navbar.open { display: flex; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="focus-banner" id="focus-banner">
+        <span>🔕 Modo "No Molestar" Activado — Espacio libre de distracciones</span>
+        <button class="btn-exit-focus" id="exit-focus-btn">Salir de Modo Foco</button>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <header class="navbar-header hide-on-focus">
+        <div class="logo">
+            <h1>Study<span>Boost</span></h1>
+        </div>
+
+        <div class="nav-controls">
+            <button class="action-btn" id="focus-btn" title="Modo No Molestar">
+                <span>🔕</span> <small>No Molestar</small>
+            </button>
+
+            <button class="action-btn" id="theme-btn" title="Cambiar tema visual">
+                <span id="theme-icon">🌙</span>
+            </button>
+
+            <button class="menu-toggle" id="menu-toggle" aria-label="Abrir Menú">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+
+        <nav class="navbar" id="navbar">
+            <a href="introduccion.php" class="nav-btn">Inicio</a>
+            <a href="tecnicas.html" class="nav-btn">Técnicas</a>
+            <a href="calendario.php" class="nav-btn">Calendario</a>
+            <a href="videos.html" class="nav-btn active">Videos</a>
+            <a href="recordatorio.php" class="nav-btn">Recordatorio</a>
+            <a href="metas.php" class="nav-btn">Metas</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="top-bar-nav hide-on-focus">
+            <a href="tecnicas.html" class="btn-back">
+                <span>←</span> Volver a Técnicas
+            </a>
+        </div>
+
+        <section class="hero-banner hide-on-focus">
+            <h2>Videotutoriales de las 20 Técnicas</h2>
+            <p>
+                Cada técnica cuenta ahora con su propio anclaje web individual (ej. <code>videos.html#tecnica-1</code>) para que puedas compartir o enlazar cada video de forma totalmente separada en <strong>Study Boost</strong>.
+            </p>
+        </section>
+
+        <!-- WIDGET DE FRASES MOTIVADORAS -->
+        <div class="motivation-widget hide-on-focus">
+            <div class="motivation-content">
+                <div class="motivation-icon">💡</div>
+                <div class="motivation-text">
+                    <h4>Frase Motivadora del Día</h4>
+                    <p id="daily-quote">"El éxito es la suma de pequeños esfuerzos repetidos día tras día." — Robert Collier</p>
+                </div>
+            </div>
+            <button class="btn-refresh-quote" id="refresh-quote-btn">Nueva Frase 🔄</button>
+        </div>
+
+        <!-- SECCIÓN 1: TÉCNICAS DE ESTUDIO (1 TO 10) -->
+        <h3 class="category-title">
+            <span class="icon-badge">🧠</span> Videotutoriales: Técnicas de Estudio y Retención (1 - 10)
+        </h3>
+
+        <div class="videos-grid" id="grid-estudio">
+            <!-- 1. Técnica Feynman -->
+            <div class="video-card" id="tecnica-1" data-id="1">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=600&q=80" alt="Técnica Feynman">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Técnica Feynman', 'Explicación paso a paso de cómo aplicar el método de Richard Feynman para simplificar conceptos complejos.', getVideoUrl(1))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Comprensión</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(1)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">1. Técnica Feynman</h4>
+                    <p class="video-desc">Aprende a simplificar cualquier materia enseñándola con palabras sencillas.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 1):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-1" placeholder="Ej: videos/feynman.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(1)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 4:15 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Técnica Feynman', 'Explicación paso a paso de cómo aplicar el método de Richard Feynman para simplificar conceptos complejos.', getVideoUrl(1))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Active Recall -->
+            <div class="video-card" id="tecnica-2" data-id="2">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80" alt="Active Recall">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Recordatorio Activo (Active Recall)', 'Descubre cómo forzar a tu cerebro a recuperar información potencia las conexiones neuronales.', getVideoUrl(2))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Memoria</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(2)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">2. Recordatorio Activo</h4>
+                    <p class="video-desc">Estrategias de autoevaluación constante para fijar conocimientos a largo plazo.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 2):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-2" placeholder="Ej: videos/active-recall.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(2)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 5:00 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Recordatorio Activo (Active Recall)', 'Descubre cómo forzar a tu cerebro a recuperar información potencia las conexiones neuronales.', getVideoUrl(2))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Repetición Espaciada -->
+            <div class="video-card" id="tecnica-3" data-id="3">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=600&q=80" alt="Repetición Espaciada">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Repetición Espaciada', 'Cómo programar tus repasos estratégicamente para vencer la curva del olvido de Ebbinghaus.', getVideoUrl(3))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Largo Plazo</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(3)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">3. Repetición Espaciada</h4>
+                    <p class="video-desc">Vence la curva del olvido programando intervalos óptimos de repaso.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 3):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-3" placeholder="Ej: videos/repespaciada.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(3)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 6:20 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Repetición Espaciada', 'Cómo programar tus repasos estratégicamente para vencer la curva del olvido de Ebbinghaus.', getVideoUrl(3))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Método Cornell -->
+            <div class="video-card" id="tecnica-4" data-id="4">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=600&q=80" alt="Método Cornell">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Método Cornell de Apuntes', 'Tutorial sobre cómo estructurar tu cuaderno en tres zonas para tomar apuntes altamente eficientes.', getVideoUrl(4))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Apuntes</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(4)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">4. Método Cornell</h4>
+                    <p class="video-desc">Estructuración inteligente de apuntes con margen de preguntas y resumen.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 4):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-4" placeholder="Ej: videos/cornell.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(4)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 4:40 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Método Cornell de Apuntes', 'Tutorial sobre cómo estructurar tu cuaderno en tres zonas para tomar apuntes altamente eficientes.', getVideoUrl(4))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Mapas Mentales -->
+            <div class="video-card" id="tecnica-5" data-id="5">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?auto=format&fit=crop&w=600&q=80" alt="Mapas Mentales">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Mapas Mentales', 'Guía visual para conectar ideas principales mediante ramas, colores y palabras clave.', getVideoUrl(5))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Visual</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(5)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">5. Mapas Mentales</h4>
+                    <p class="video-desc">Conecta conceptos mediante redes visuales que estimulan ambos hemisferios.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 5):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-5" placeholder="Ej: videos/mapasmentales.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(5)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 5:15 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Mapas Mentales', 'Guía visual para conectar ideas principales mediante ramas, colores y palabras clave.', getVideoUrl(5))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Método SQ3R -->
+            <div class="video-card" id="tecnica-6" data-id="6">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=600&q=80" alt="Método SQ3R">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Método SQ3R de Lectura', 'Cinco pasos para leer un libro de texto: Survey, Question, Read, Recite, Review.', getVideoUrl(6))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Lectura</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(6)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">6. Método SQ3R</h4>
+                    <p class="video-desc">Comprensión sistemática de textos complejos en 5 fases de lectura activa.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 6):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-6" placeholder="Ej: videos/sq3r.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(6)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 6:00 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Método SQ3R de Lectura', 'Cinco pasos para leer un libro de texto: Survey, Question, Read, Recite, Review.', getVideoUrl(6))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Mapas Conceptuales -->
+            <div class="video-card" id="tecnica-7" data-id="7">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" alt="Mapas Conceptuales">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Mapas Conceptuales', 'Jerarquización de proposiciones y conceptos con conectores lógicos.', getVideoUrl(7))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Jerarquía</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(7)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">7. Mapas Conceptuales</h4>
+                    <p class="video-desc">Organización jerárquica de proposiciones con conectores lógicos claros.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 7):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-7" placeholder="Ej: videos/mapasconceptuales.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(7)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 4:50 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Mapas Conceptuales', 'Jerarquización de proposiciones y conceptos con conectores lógicos.', getVideoUrl(7))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. Interleaving (Práctica Intercalada) -->
+            <div class="video-card" id="tecnica-8" data-id="8">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80" alt="Práctica Intercalada">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Práctica Intercalada (Interleaving)', 'Alternar entre diferentes materias o temas para entrenar la flexibilidad mental.', getVideoUrl(8))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Flexibilidad</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(8)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">8. Práctica Intercalada</h4>
+                    <p class="video-desc">Alterna diferentes asignaturas para potenciar la discriminación de conceptos.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 8):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-8" placeholder="Ej: videos/interleaving.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(8)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 5:30 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Práctica Intercalada (Interleaving)', 'Alternar entre diferentes materias o temas para entrenar la flexibilidad mental.', getVideoUrl(8))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. Técnica Blurting -->
+            <div class="video-card" id="tecnica-9" data-id="9">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80" alt="Técnica Blurting">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Técnica Blurting', 'Escribe de memoria todo lo que recuerdes tras leer un tema y contrasta con tus notas en rojo.', getVideoUrl(9))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Descarga</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(9)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">9. Técnica Blurting</h4>
+                    <p class="video-desc">Descarga rápida de memoria para evidenciar fallos de estudio al instante.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 9):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-9" placeholder="Ej: videos/blurting.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(9)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 4:10 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Técnica Blurting', 'Escribe de memoria todo lo que recuerdes tras leer un tema y contrasta con tus notas en rojo.', getVideoUrl(9))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. Método Leitner -->
+            <div class="video-card" id="tecnica-10" data-id="10">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=600&q=80" alt="Método Leitner">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Método Leitner (Flashcards)', 'Sistema de cajas de repetición espaciada para clasificar tarjetas según tu dominio.', getVideoUrl(10))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Flashcards</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(10)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">10. Método Leitner</h4>
+                    <p class="video-desc">Sistema de cajas para clasificar tarjetas de memoria según tu acierto.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 10):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-10" placeholder="Ej: videos/leitner.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(10)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 5:45 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Método Leitner (Flashcards)', 'Sistema de cajas de repetición espaciada para clasificar tarjetas según tu dominio.', getVideoUrl(10))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 2: TÉCNICAS DE TIEMPO Y PRODUCTIVIDAD (11 TO 20) -->
+        <h3 class="category-title">
+            <span class="icon-badge">⏱️</span> Videotutoriales: Tiempo y Productividad (11 - 20)
+        </h3>
+
+        <div class="videos-grid" id="grid-tiempo">
+            <!-- 11. Pomodoro -->
+            <div class="video-card" id="tecnica-11" data-id="11">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=600&q=80" alt="Técnica Pomodoro">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Técnica Pomodoro', 'Trabaja concentrado durante 25 minutos y descansa 5 para mantener la energía al máximo.', getVideoUrl(11))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Enfoque</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(11)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">11. Técnica Pomodoro</h4>
+                    <p class="video-desc">Bloques de 25 minutos de concentración absoluta seguidos de breves descansos.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 11):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-11" placeholder="Ej: videos/pomodoro.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(11)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 4:30 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Técnica Pomodoro', 'Trabaja concentrado durante 25 minutos y descansa 5 para mantener la energía al máximo.', getVideoUrl(11))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 12. Time Blocking -->
+            <div class="video-card" id="tecnica-12" data-id="12">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1506784365847-bbad939e9335?auto=format&fit=crop&w=600&q=80" alt="Time Blocking">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Time Blocking (Bloques de Tiempo)', 'Agenda cada hora de tu día asignando tareas específicas para evitar la multitarea.', getVideoUrl(12))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Agenda</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(12)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">12. Time Blocking</h4>
+                    <p class="video-desc">Asigna bloques horarios específicos a cada tarea para eliminar la improvisación.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 12):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-12" placeholder="Ej: videos/timeblocking.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(12)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 5:10 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Time Blocking (Bloques de Tiempo)', 'Agenda cada hora de tu día asignando tareas específicas para evitar la multitarea.', getVideoUrl(12))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 13. Matriz de Eisenhower -->
+            <div class="video-card" id="tecnica-13" data-id="13">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=600&q=80" alt="Matriz de Eisenhower">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Matriz de Eisenhower', 'Clasifica tus pendientes según urgencia e importancia para priorizar lo verdaderamente crítico.', getVideoUrl(13))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Prioridades</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(13)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">13. Matriz de Eisenhower</h4>
+                    <p class="video-desc">Cuadrante para discernir entre lo urgente, lo importante y lo prescindible.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 13):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-13" placeholder="Ej: videos/eisenhower.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(13)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 4:55 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Matriz de Eisenhower', 'Clasifica tus pendientes según urgencia e importancia para priorizar lo verdaderamente crítico.', getVideoUrl(13))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 14. Regla de los 2 Minutos -->
+            <div class="video-card" id="tecnica-14" data-id="14">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80" alt="Regla de los 2 Minutos">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Regla de los 2 Minutos', 'Si una tarea toma menos de 2 minutos, hazla ahora mismo y vence la procrastinación.', getVideoUrl(14))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Acción</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(14)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">14. Regla de los 2 Minutos</h4>
+                    <p class="video-desc">Ejecuta de inmediato cualquier tarea rápida para evitar acumular pendientes.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 14):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-14" placeholder="Ej: videos/regla2min.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(14)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 3:45 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Regla de los 2 Minutos', 'Si una tarea toma menos de 2 minutos, hazla ahora mismo y vence la procrastinación.', getVideoUrl(14))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 15. Método Kanban -->
+            <div class="video-card" id="tecnica-15" data-id="15">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?auto=format&fit=crop&w=600&q=80" alt="Método Kanban">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Método Kanban de Tableros', 'Visualiza tu flujo de trabajo en columnas: Pendiente, En Proceso y Hecho.', getVideoUrl(15))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Flujo</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(15)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">15. Método Kanban</h4>
+                    <p class="video-desc">Tablero visual de tareas con estados: Por hacer, En curso y Completado.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 15):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-15" placeholder="Ej: videos/kanban.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(15)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 5:20 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Método Kanban de Tableros', 'Visualiza tu flujo de trabajo en columnas: Pendiente, En Proceso y Hecho.', getVideoUrl(15))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 16. Principio de Pareto (80/20) -->
+            <div class="video-card" id="tecnica-16" data-id="16">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80" alt="Principio de Pareto">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Principio de Pareto (Ley 80/20)', 'Identifica el 20% de tus esfuerzos que genera el 80% de tus mejores calificaciones.', getVideoUrl(16))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Estrategia</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(16)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">16. Principio de Pareto</h4>
+                    <p class="video-desc">Enfócate en el 20% de acciones clave que producen el 80% de los resultados.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 16):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-16" placeholder="Ej: videos/pareto.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(16)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 5:00 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Principio de Pareto (Ley 80/20)', 'Identifica el 20% de tus esfuerzos que genera el 80% de tus mejores calificaciones.', getVideoUrl(16))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 17. Eat That Frog -->
+            <div class="video-card" id="tecnica-17" data-id="17">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=600&q=80" alt="Eat That Frog">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Eat That Frog (Cómete la Rana)', 'Resuelve la tarea más difícil y pesada a primera hora de la mañana.', getVideoUrl(17))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Antiprocrastinación</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(17)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">17. Cómete la Rana</h4>
+                    <p class="video-desc">Ataca tu tarea más difícil a primera hora del día para liberar tu mente.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 17):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-17" placeholder="Ej: videos/rana.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(17)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 4:20 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Eat That Frog (Cómete la Rana)', 'Resuelve la tarea más difícil y pesada a primera hora de la mañana.', getVideoUrl(17))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 18. Método 90/90/1 -->
+            <div class="video-card" id="tecnica-18" data-id="18">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=600&q=80" alt="Método 90/90/1">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Método 90/90/1', 'Dedica los primeros 90 minutos de tu día durante 90 días a tu proyecto o meta principal.', getVideoUrl(18))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Alto Rendimiento</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(18)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">18. Método 90/90/1</h4>
+                    <p class="video-desc">Consagra 90 minutos diarios durante 90 días a tu proyecto u objetivo clave.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 18):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-18" placeholder="Ej: videos/90901.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(18)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 5:40 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Método 90/90/1', 'Dedica los primeros 90 minutos de tu día durante 90 días a tu proyecto o meta principal.', getVideoUrl(18))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 19. Time Boxing -->
+            <div class="video-card" id="tecnica-19" data-id="19">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?auto=format&fit=crop&w=600&q=80" alt="Time Boxing">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Time Boxing', 'Establece un límite estricto de tiempo para completar una tarea y detente al cumplirse.', getVideoUrl(19))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Límites</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(19)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">19. Time Boxing</h4>
+                    <p class="video-desc">Fija un plazo máximo e inflexible para terminar una actividad específica.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 19):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-19" placeholder="Ej: videos/timeboxing.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(19)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 4:15 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Time Boxing', 'Establece un límite estricto de tiempo para completar una tarea y detente al cumplirse.', getVideoUrl(19))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 20. Método Ivy Lee -->
+            <div class="video-card" id="tecnica-20" data-id="20">
+                <div class="video-container">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80" alt="Método Ivy Lee">
+                    <button class="play-overlay-btn" onclick="openVideoModal('Método Ivy Lee de 6 Pasos', 'Lista cada noche las 6 tareas más importantes del día siguiente y ordénalas por prioridad.', getVideoUrl(20))">▶</button>
+                </div>
+                <div class="video-info">
+                    <div class="video-badge-row">
+                        <span class="video-badge">Planificación</span>
+                        <button class="btn-copy-link" onclick="copyTechniqueLink(20)" title="Copiar enlace directo a esta técnica">🔗 Copiar Enlace</button>
+                    </div>
+                    <h4 class="video-title">20. Método Ivy Lee</h4>
+                    <p class="video-desc">Rutina nocturna de 6 prioridades diarias para asegurar el enfoque absoluto.</p>
+                    
+                    <div class="card-video-config hide-on-focus">
+                        <label>Tu Enlace de Video (Técnica 20):</label>
+                        <div class="card-input-row">
+                            <input type="text" id="url-input-20" placeholder="Ej: videos/ivylee.mp4">
+                            <button class="btn-save-card" onclick="saveCardVideo(20)">Guardar</button>
+                        </div>
+                    </div>
+
+                    <div class="video-action-row">
+                        <span>⏱️ Duración: 4:50 min</span>
+                        <button class="btn-watch" onclick="openVideoModal('Método Ivy Lee de 6 Pasos', 'Lista cada noche las 6 tareas más importantes del día siguiente y ordénalas por prioridad.', getVideoUrl(20))">Ver Video</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL DE REPRODUCTOR DE VIDEO AMPLIADO -->
+    <div class="video-modal" id="videoModal">
+        <div class="modal-content-box">
+            <div class="modal-header-bar">
+                <h3 id="modalTitle">Título de la Técnica</h3>
+                <button class="btn-close-modal" onclick="closeVideoModal()">✕</button>
+            </div>
+            <div class="modal-player-wrapper">
+                <video id="modalVideoElement" controls autoplay>
+                    Tu navegador no soporta la reproducción de videos HTML5.
+                </video>
+            </div>
+            <div class="modal-footer-desc" id="modalDesc">
+                Descripción detallada del videotutorial.
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer hide-on-focus">
+        <p>&copy; 2026 Study Boost — Proyecto de Innovación BTH Sistemas Informáticos. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Gestor de enlaces individuales para cada tarjeta corregido
+        function getVideoUrl(id) {
+            const customVideos = JSON.parse(localStorage.getItem('studyboost_custom_videos') || '{}');
+            
+            // Si el usuario guardó un enlace personalizado para esta técnica específica, se devuelve
+            if (customVideos[id]) {
+                return customVideos[id];
+            }
+
+            // Rutas individuales por defecto para cada técnica del 1 al 20
+            const defaultVideos = {
+                1: 'video/feyman.mp4',
+                2: 'video/active recall.mp4',
+                3: 'videos/repeticion-espaciada.mp4',
+                4: 'videos/cornell.mp4',
+                5: 'videos/mapas-mentales.mp4',
+                6: 'videos/sq3r.mp4',
+                7: 'videos/mapas-conceptuales.mp4',
+                8: 'videos/interleaving.mp4',
+                9: 'videos/blurting.mp4',
+                10: 'videos/leitner.mp4',
+                11: 'videos/pomodoro.mp4',
+                12: 'videos/time-blocking.mp4',
+                13: 'videos/eisenhower.mp4',
+                14: 'videos/regla-2-minutos.mp4',
+                15: 'videos/kanban.mp4',
+                16: 'videos/pareto.mp4',
+                17: 'videos/eat-that-frog.mp4',
+                18: 'videos/metodo-90-90-1.mp4',
+                19: 'videos/time-boxing.mp4',
+                20: 'videos/ivy-lee.mp4'
+            };
+
+            return defaultVideos[id] || 'videos/default.mp4';
+        }
+
+        function saveCardVideo(id) {
+            const inputVal = document.getElementById(`url-input-${id}`).value.trim();
+            if(!inputVal) {
+                showToast(`⚠️ Ingresa una ruta de video para la técnica ${id}`);
+                return;
+            }
+
+            const customVideos = JSON.parse(localStorage.getItem('studyboost_custom_videos') || '{}');
+            customVideos[id] = inputVal;
+            localStorage.setItem('studyboost_custom_videos', JSON.stringify(customVideos));
+
+            showToast(`✅ Video de la técnica #${id} guardado correctamente`);
+        }
+
+        // Función para copiar el enlace web individual de cada técnica
+        function copyTechniqueLink(id) {
+            const cleanUrl = window.location.href.split('#')[0];
+            const directLink = `${cleanUrl}#tecnica-${id}`;
+            
+            navigator.clipboard.writeText(directLink).then(() => {
+                showToast(`📋 Enlace directo a la Técnica #${id} copiado`);
+            }).catch(() => {
+                showToast(`❌ No se pudo copiar el enlace`);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cargar valores guardados previamente en los inputs de cada tarjeta
+            const customVideos = JSON.parse(localStorage.getItem('studyboost_custom_videos') || '{}');
+            for(let i = 1; i <= 20; i++) {
+                if(customVideos[i]) {
+                    const inputEl = document.getElementById(`url-input-${i}`);
+                    if(inputEl) inputEl.value = customVideos[i];
+                }
+            }
+
+            // 1. MODO OSCURO / CLARO
+            const themeBtn = document.getElementById('theme-btn');
+            const themeIcon = document.getElementById('theme-icon');
+            const htmlElement = document.documentElement;
+
+            const savedTheme = localStorage.getItem('studyboost_theme') || 'light';
+            htmlElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+
+            themeBtn.addEventListener('click', () => {
+                const currentTheme = htmlElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                htmlElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('studyboost_theme', newTheme);
+                updateThemeIcon(newTheme);
+                showToast(newTheme === 'dark' ? 'Modo Oscuro Activado 🌙' : 'Modo Claro Activado ☀️');
+            });
+
+            function updateThemeIcon(theme) {
+                themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+            }
+
+            // 2. MODO NO MOLESTAR (FOCUS MODE)
+            const focusBtn = document.getElementById('focus-btn');
+            const exitFocusBtn = document.getElementById('exit-focus-btn');
+
+            focusBtn.addEventListener('click', () => {
+                document.body.classList.add('focus-mode');
+                showToast('Modo No Molestar Activado 🔕');
+            });
+
+            exitFocusBtn.addEventListener('click', () => {
+                document.body.classList.remove('focus-mode');
+                showToast('Has vuelto al modo normal 🔔');
+            });
+
+            // 3. MENÚ MÓVIL
+            const menuToggle = document.getElementById('menu-toggle');
+            const navbar = document.getElementById('navbar');
+            menuToggle.addEventListener('click', () => navbar.classList.toggle('open'));
+
+            // 4. FRASES MOTIVADORAS ROTATIVAS
+            const quotes = [
+                '"El éxito es la suma de pequeños esfuerzos repetidos día tras día." — Robert Collier',
+                '"La disciplina es el puente entre tus metas y tus logros." — Jim Rohn',
+                '"El secreto para salir adelante es simplemente empezar." — Mark Twain',
+                '"Haz de cada día tu obra maestra." — John Wooden',
+                '"No cuentes los días, haz que los días cuenten." — Muhammad Ali'
+            ];
+
+            const dailyQuoteEl = document.getElementById('daily-quote');
+            const refreshQuoteBtn = document.getElementById('refresh-quote-btn');
+
+            function setRandomQuote() {
+                dailyQuoteEl.textContent = quotes[Math.floor(Math.random() * quotes.length)];
+                showToast('Nueva frase cargada ✨');
+            }
+
+            refreshQuoteBtn.addEventListener('click', setRandomQuote);
+
+            // 5. TOAST NOTIFICATIONS
+            window.showToast = function(message) {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.textContent = message;
+                container.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            };
+        });
+
+        // 6. MODAL DE VIDEOS LOCALES/PERSONALIZADOS
+        function openVideoModal(title, desc, videoUrl) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDesc').textContent = desc;
+            
+            const videoElement = document.getElementById('modalVideoElement');
+            videoElement.src = videoUrl;
+            videoElement.load();
+            
+            document.getElementById('videoModal').classList.add('active');
+            showToast('Reproduciendo videotutorial propio 🎬');
+        }
+
+        function closeVideoModal() {
+            const videoElement = document.getElementById('modalVideoElement');
+            videoElement.pause();
+            videoElement.src = '';
+            document.getElementById('videoModal').classList.remove('active');
+        }
+
+        // Cerrar modal haciendo clic fuera
+        window.addEventListener('click', (e) => {
+            const modal = document.getElementById('videoModal');
+            if (e.target === modal) {
+                closeVideoModal();
+            }
+        });
+    </script>
+</body>
+</html>

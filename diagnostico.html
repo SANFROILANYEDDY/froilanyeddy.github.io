@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Boost | Diagnóstico de Hábitos de Estudio</title>
+    
+    <style>
+        /* --- PALETA DE COLORES SUAVES (EYE-FRIENDLY & ANTI-DESLUMBRAMIENTO) --- */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+        }
+
+        :root[data-theme="light"] {
+            --bg-color: #eef2f6;
+            --surface-color: #f8fafc;
+            --surface-border: #cbd5e1;
+            --text-color: #1e293b;
+            --text-muted: #475569;
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --accent-purple: #9333ea;
+            --accent-blue: #0284c7;
+
+            --card-lavender: #f3f0ff;
+            --border-lavender: #ddd6fe;
+            --card-sky: #f0f9ff;
+            --border-sky: #bae6fd;
+            --card-mint: #f0fdf4;
+            --border-mint: #bbf7d0;
+            --card-amber: #fff7ed;
+            --border-amber: #fed7aa;
+            --shadow: 0 10px 25px -5px rgba(148, 163, 184, 0.2);
+        }
+
+        :root[data-theme="dark"] {
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --surface-border: #334155;
+            --text-color: #f1f5f9;
+            --text-muted: #94a3b8;
+            --primary-color: #818cf8;
+            --primary-hover: #6366f1;
+            --accent-purple: #c084fc;
+            --accent-blue: #38bdf8;
+
+            --card-lavender: #1e1b4b;
+            --border-lavender: #3730a3;
+            --card-sky: #0c4a6e;
+            --border-sky: #0369a1;
+            --card-mint: #064e3b;
+            --border-mint: #047857;
+            --card-amber: #451a03;
+            --border-amber: #78350f;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body.focus-mode .hide-on-focus {
+            display: none !important;
+        }
+
+        .focus-banner {
+            display: none;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-purple));
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            position: sticky;
+            top: 0;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        body.focus-mode .focus-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 5%;
+        }
+
+        .btn-exit-focus {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            border-left: 4px solid var(--primary-color);
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            font-size: 0.9rem;
+            font-weight: 600;
+            animation: slideIn 0.3s ease forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .navbar-header {
+            background-color: var(--surface-color);
+            border-bottom: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.9rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-color);
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .navbar {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            color: var(--text-muted);
+            padding: 0.5rem 0.9rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn:hover {
+            color: var(--primary-color);
+            background-color: var(--bg-color);
+        }
+
+        .nav-btn.active {
+            background-color: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .action-btn {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 0.5rem 0.85rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 600;
+        }
+
+        .action-btn:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 24px;
+            height: 3px;
+            background-color: var(--text-color);
+            border-radius: 3px;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        .hero-banner {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+            background-color: #0b1329;
+        }
+
+        .hero-banner img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0.35;
+            transition: transform 8s ease, opacity 0.5s ease;
+        }
+
+        .hero-banner-content {
+            position: relative;
+            z-index: 2;
+            max-width: 950px;
+            height: 100%;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            padding: 0.35rem 1.1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .hero-banner-content h2 {
+            font-size: 2.3rem;
+            font-weight: 800;
+            margin-bottom: 0.6rem;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+
+        .hero-banner-content p {
+            font-size: 1.05rem;
+            max-width: 680px;
+            color: #e2e8f0;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+
+        .diag-container {
+            max-width: 950px;
+            margin: 2rem auto 3.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .instructions-card {
+            background: linear-gradient(135deg, var(--card-lavender), var(--card-sky));
+            border: 1px solid var(--border-lavender);
+            border-radius: 20px;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .instructions-card h3 {
+            font-size: 1.3rem;
+            color: var(--text-color);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .scale-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 0.6rem;
+            margin-top: 1rem;
+            background: var(--surface-color);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--surface-border);
+        }
+
+        .scale-item {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .scale-item strong {
+            color: var(--primary-color);
+        }
+
+        .module-section {
+            background-color: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .module-header h3 {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+        }
+
+        .question-card {
+            background-color: var(--bg-color);
+            border-radius: 16px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .question-img {
+            width: 130px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 12px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .question-body {
+            flex: 1;
+            width: 100%;
+        }
+
+        .question-title {
+            font-size: 0.98rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.9rem;
+        }
+
+        .question-options {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            max-width: 480px;
+        }
+
+        .option-label {
+            flex: 1;
+            text-align: center;
+            background-color: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            padding: 0.6rem 0;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            user-select: none;
+        }
+
+        .option-label:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .option-label input[type="radio"] {
+            display: none;
+        }
+
+        .option-label.selected {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-submit-diag {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-purple));
+            color: #ffffff;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            margin-top: 1rem;
+        }
+
+        .btn-submit-diag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.4);
+        }
+
+        /* --- DASHBOARD RESULTADOS --- */
+        #results-dashboard {
+            display: none;
+            margin-top: 2rem;
+            animation: slideIn 0.5s ease forwards;
+        }
+
+        .result-card {
+            background-color: var(--surface-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 20px;
+            padding: 2.2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .result-badge {
+            display: inline-block;
+            padding: 0.4rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .score-display {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .score-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            line-height: 1;
+        }
+
+        .score-max {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .modules-breakdown {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin: 1.5rem 0;
+        }
+
+        .mod-box {
+            background-color: var(--bg-color);
+            padding: 1.2rem;
+            border-radius: 14px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .mod-box h5 {
+            font-size: 0.95rem;
+            margin-bottom: 0.4rem;
+            color: var(--text-color);
+        }
+
+        .mod-box p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .action-plan {
+            background-color: var(--card-amber);
+            border: 1px solid var(--border-amber);
+            padding: 1.5rem;
+            border-radius: 14px;
+            margin-top: 1.5rem;
+        }
+
+        .action-plan h4 {
+            color: #c2410c;
+            margin-bottom: 0.6rem;
+            font-size: 1.1rem;
+        }
+
+        .recommended-tech-box {
+            background: var(--surface-color);
+            border: 1px solid var(--primary-color);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .recommended-tech-box div h5 {
+            color: var(--primary-color);
+            font-size: 1.05rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .recommended-tech-box p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .btn-tech-link {
+            text-decoration: none;
+            background: var(--primary-color);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .btn-tech-link:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-retry {
+            margin-top: 1.5rem;
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            color: var(--text-color);
+            padding: 0.7rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-retry:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .footer {
+            background-color: var(--surface-color);
+            border-top: 1px solid var(--surface-border);
+            padding: 2rem 1rem 1.5rem 1rem;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer-quote-container {
+            max-width: 600px;
+            margin: 0 auto 1.5rem auto;
+            padding: 1.2rem;
+            background-color: var(--card-lavender);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 14px;
+        }
+
+        .footer-quote-container h3 {
+            font-size: 0.78rem;
+            color: var(--primary-color);
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        #daily-quote {
+            font-size: 0.98rem;
+            color: var(--text-color);
+            font-style: italic;
+            margin-bottom: 0.8rem;
+        }
+
+        .btn-refresh-quote {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            color: var(--text-muted);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-refresh-quote:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 900px) {
+            .modules-breakdown { grid-template-columns: 1fr; }
+            .hero-banner { height: 240px; }
+            .hero-banner-content h2 { font-size: 1.8rem; }
+            .recommended-tech-box { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: flex; }
+            .navbar {
+                display: none;
+                position: absolute;
+                top: 100%; left: 0; width: 100%;
+                background-color: var(--surface-color);
+                flex-direction: column;
+                padding: 1rem;
+                border-bottom: 1px solid var(--surface-border);
+            }
+            .navbar.open { display: flex; }
+            .question-card { flex-direction: column; align-items: flex-start; }
+            .question-img { width: 100%; height: 140px; }
+            .question-options { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="focus-banner" id="focus-banner">
+        <span>🔕 Modo "No Molestar" Activado — Tu espacio libre de distracciones</span>
+        <button class="btn-exit-focus" id="exit-focus-btn">Salir de Modo Foco</button>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <header class="navbar-header hide-on-focus">
+        <div class="logo">
+            <h1>Study<span>Boost</span></h1>
+        </div>
+
+        <div class="nav-controls">
+            <button class="action-btn" id="focus-btn" title="Modo No Molestar">
+                <span>🔕</span> <small>No Molestar</small>
+            </button>
+
+            <button class="action-btn" id="theme-btn" title="Cambiar tema visual">
+                <span id="theme-icon">🌙</span>
+            </button>
+
+            <button class="menu-toggle" id="menu-toggle" aria-label="Abrir Menú">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+
+        <nav class="navbar" id="navbar">
+             <a href="introduccion.php" class="nav-btn active">Inicio</a>
+            <a href="tecnicas.html" class="nav-btn">Técnicas</a>
+            <a href="calendario.php" class="nav-btn">Calendario</a>
+            <a href="videos.html" class="nav-btn">Videos</a>
+            <a href="recordatorio.php" class="nav-btn">Recordatorio</a>
+            <a href="metas.php" class="nav-btn">Metas</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-banner hide-on-focus">
+            <img id="diag-hero-img" src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1200&q=80" alt="Diagnóstico de estudio">
+            <div class="hero-banner-content">
+                <span class="hero-badge">Herramienta de Evaluación</span>
+                <h2>Diagnóstico de Hábitos de Estudio</h2>
+                <p>Descubre tu perfil de aprendizaje, identifica tus puntos fuertes y obtén tu técnica ideal entre las 20 disponibles.</p>
+            </div>
+        </section>
+
+        <section class="diag-container">
+            <div class="instructions-card hide-on-focus">
+                <h3>📋 Instrucciones del Cuestionario</h3>
+                <p>Selecciona el número que mejor represente tu comportamiento habitual en el colegio o al estudiar en casa:</p>
+                <div class="scale-legend">
+                    <div class="scale-item"><strong>1:</strong> Nunca / En absoluto</div>
+                    <div class="scale-item"><strong>2:</strong> Rara vez / Casi nunca</div>
+                    <div class="scale-item"><strong>3:</strong> A veces / A la mitad</div>
+                    <div class="scale-item"><strong>4:</strong> Frecuentemente</div>
+                    <div class="scale-item"><strong>5:</strong> Siempre / Totalmente</div>
+                </div>
+            </div>
+
+            <form id="diag-form">
+                <div class="module-section">
+                    <div class="module-header">
+                        <span>🧠</span>
+                        <h3>Módulo 1: Estrategias y Procesamiento de la Información</h3>
+                    </div>
+
+                    <div class="question-card">
+                        <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=400&q=80" alt="Evocación Activa" class="question-img">
+                        <div class="question-body">
+                            <p class="question-title">1. Evocación Activa: Cuando termino de leer un capítulo o tema, cierro el libro e intento explicarme a mí mismo los conceptos principales sin mirar las notas.</p>
+                            <div class="question-options" data-q="1">
+                                <label class="option-label"><input type="radio" name="q1" value="1">1</label>
+                                <label class="option-label"><input type="radio" name="q1" value="2">2</label>
+                                <label class="option-label"><input type="radio" name="q1" value="3">3</label>
+                                <label class="option-label"><input type="radio" name="q1" value="4">4</label>
+                                <label class="option-label"><input type="radio" name="q1" value="5">5</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=400&q=80" alt="Resúmenes Pasivos" class="question-img">
+                        <div class="question-body">
+                            <p class="question-title">2. Uso de Resúmenes Pasivos: Mi forma principal de estudiar consiste en releer mis apuntes y pasar el marcador resaltador sobre el texto varias veces.</p>
+                            <div class="question-options" data-q="2">
+                                <label class="option-label"><input type="radio" name="q2" value="1">1</label>
+                                <label class="option-label"><input type="radio" name="q2" value="2">2</label>
+                                <label class="option-label"><input type="radio" name="q2" value="3">3</label>
+                                <label class="option-label"><input type="radio" name="q2" value="4">4</label>
+                                <label class="option-label"><input type="radio" name="q2" value="5">5</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=400&q=80" alt="Material Propio" class="question-img">
+                        <div class="question-body">
+                            <p class="question-title">3. Elaboración de Material Propio: Para preparar un examen, transformo la información en diagramas, mapas conceptuales, cuadros comparativos o fichas de memoria (flashcards).</p>
+                            <div class="question-options" data-q="3">
+                                <label class="option-label"><input type="radio" name="q3" value="1">1</label>
+                                <label class="option-label"><input type="radio" name="q3" value="2">2</label>
+                                <label class="option-label"><input type="radio" name="q3" value="3">3</label>
+                                <label class="option-label"><input type="radio" name="q3" value="4">4</label>
+                                <label class="option-label"><input type="radio" name="q3" value="5">5</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=400&q=80" alt="Autoevaluación Práctica" class="question-img">
+                        <div class="question-body">
+                            <p class="question-title">4. Autoevaluación Práctica: Busco o creo exámenes de prueba, cuestionarios y ejercicios prácticos para resolverlos por mi cuenta antes del examen real.</p>
+                            <div class="question-options" data-q="4">
+                                <label class="option-label"><input type="radio" name="q4" value="1">1</label>
+                                <label class="option-label"><input type="radio" name="q4" value="2">2</label>
+                                <label class="option-label"><input type="radio" name="q4" value="3">3</label>
+                                <label class="option-label"><input type="radio" name="q4" value="4">4</label>
+                                <label class="option-label"><input type="radio" name="q4" value="5">5</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80" alt="Comprensión Profunda" class="question-img">
+                        <div class="question-body">
+                            <p class="question-title">5. Comprensión Profunda: Cuando me encuentro con un término o concepto que no entiendo, busco ejemplos de la vida real o explicaciones alternativas en lugar de memorizarlo al pie de la letra.</p>
+                            <div class="question-options" data-q="5">
+                                <label class="option-label"><input type="radio" name="q5" value="1">1</label>
+                                <label class="option-label"><input type="radio" name="q5" value="2">2</label>
+                                <label class="option-label"><input type="radio" name="q5" value="3">3</label>
+                                <label class="option-label"><input type="radio" name="q5" value="4">4</label>
+                                <label class="option-label"><input type="radio" name="q5" value="5">5</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=400&q=80" alt="Intercalado de Materias" class="question-img">
+                        <div class="question-body">
+                            <p class="question-title">6. Intercalado de Materias: Durante una misma jornada de estudio, alterno entre 2 o 3 asignaturas distintas en lugar de dedicarle todo el día a una sola.</p>
+                            <div class="question-options" data-q="6">
+                                <label class="option-label"><input type="radio" name="q6" value="1">1</label>
+                                <label class="option-label"><input type="radio" name="q6" value="2">2</label>
+                                <label class="option-label"><input type="radio" name="q6" value="3">3</label>
+                                <label class="option-label"><input type="radio" name="q6" value="4">4</label>
+                                <label class="option-label"><input type="radio" name="q6" value="5">5</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=400&q=80" alt="Estudio Pasivo" class="question-img">
+                        <div class="question-body">
+                            <p class="question-title">7. Estudio Pasivo: Creo que si entendí perfectamente la explicación del profesor en clase, no necesito estudiar ni repasar ese tema en casa hasta el examen.</p>
+                            <div class="question-options" data-q="7">
+                                <label class="option-label"><input type="radio" name="q7" value="1">1</label>
+                                <label class="option-label"><input type="radio" name="q7" value="2">2</label>
+                                <label class="option-label"><input type="radio" name="q7" value="3">3</label>
+                                <label class="option-label"><input type="radio" name="q7" value="4">4</label>
+                                <label class="option-label"><input type="radio" name="q7" value="5">5</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <img src="https://images.unsplash.com/photo-1491841573634-28140fc7ced7?auto=format&fit=crop&w=400&q=80" alt="Preparación Previa" class="question-img">
+                        <div class="question-body">
+                            <p class="question-title">8. Preparación Previa: Antes de que el profesor explique un tema nuevo en clase, le doy una lectura rápida previa para tener una idea general.</p>
+                            <div class="question-options" data-q="8">
+                                <label class="option-label"><input type="radio" name="q8" value="1">1</label>
+                                <label class="option-label"><input type="radio" name="q8" value="2">2</label>
+                                <label class="option-label"><input type="radio" name="q8" value="3">3</label>
+                                <label class="option-label"><input type="radio" name="q8" value="4">4</label>
+                                <label class="option-label"><input type="radio" name="q8" value="5">5</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-section">
+                    <div class="module-header">
+                        <span>⏳</span>
+                        <h3>Módulo 2: Planificación, Tiempo y Entorno</h3>
+                    </div>
+
+                    <div class="question-card">
+                        <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=400&q=80" alt="Planificación Espaciada" class="question-img">
+                        <div class="question-body">
+                            <p class="question-title">9. Planificación Espaciada: Distribuyo el estudio de una evaluación en sesiones cortas a lo largo de varias semanas o días, en lugar de estudiar todo el contenido 24 o 48 horas antes.</p>
+                            <div class="question-options" data-q="9">
+                                <label class="option-label"><input type="radio" name="q9" value="1">1</label>
+                                <label class="option-label"><input type="radio" name="q9" value="2">2</label>
+                                <label class="option-label"><input type="radio" name="q9" value="3">3</label>
+                                <label class="option-label"><input type="radio" name="q9" value="4">4</label>
+                                <label class="option-label"><input type="radio" name="q9" value="5">5</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=400&q=80" alt="Registro de Tareas" class="question-img">
+                        <div class="question-body">
+                            <p class="question-title">10. Registro de Tareas: Mantengo actualizada una agenda, aplicación (Google Calendar, Notion, etc.) o calendario visible con todas mis entregas, proyectos y fechas de exámenes.</p>
+                            <div class="question-options" data-q="10">
+                                <label class="option-label"><input type="radio" name="q10" value="1">1</label>
+                                <label class="option-label"><input type="radio" name="q10" value="2">2</label>
+                                <label class="option-label"><input type="radio" name="q10" value="3">3</label>
+                                <label class="option-label"><input type="radio" name="q10" value="4">4</label>
+                                <label class="option-label"><input type="radio" name="q10" value="5">5</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80" alt="Estructura de Trabajo" class="question-img">
+                        <div class="question-body">
+                            <p class="question-title">11. Estructura de Trabajo: Divido los trabajos o proyectos grandes y complejos en pequeñas tareas diarias más fáciles de realizar.</p>
+                            <div class="question-options" data-q="11">
+                                <label class="option-label"><input type="radio" name="q11" value="1">1</label>
+                                <label class="option-label"><input type="radio" name="q11" value="2">2</label>
+                                <label class="option-label"><input type="radio" name="q11" value="3">3</label>
+                                <label class="option-label"><input type="radio" name="q11" value="4">4</label>
+                                <label class="option-label"><input type="radio" name="q11" value="5">5</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <img src="https://images.unsplash.com/photo-1501139083538-0139583c060f?auto=format&fit=crop&w=400&q=80" alt="Procrastinación" class="question-img">
+                        <div class="question-body">
+                            <p class="question-title">12. Manejo de Procrastinación: Dejo las tareas difíciles o aburridas para el último momento disponible antes de la fecha límite.</p>
+                            <div class="question-options" data-q="12">
+                                <label class="option-label"><input type="radio" name="q12" value="1">1</label>
+                                <label class="option-label"><input type="radio" name="q12" value="2">2</label>
+                                <label class="option-label"><input type="radio" name="q12" value="3">3</label>
+                                <label class="option-label"><input type="radio" name="q12" value="4">4</label>
+                                <label class="option-label"><input type="radio" name="q12" value="5">5</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <img src="https://images.unsplash.com/photo-1512499617640-c74ae3a79d37?auto=format&fit=crop&w=400&q=80" alt="Control de Distractores" class="question-img">
+                        <div class="question-body">
+                            <p class="question-title">13. Control de Distractores: Mientras estudio, mantengo el teléfono móvil alejado, en silencio o uso aplicaciones que bloquean redes sociales para evitar distracciones.</p>
+                            <div class="question-options" data-q="13">
+                                <label class="option-label"><input type="radio" name="q13" value="1">1</label>
+                                <label class="option-label"><input type="radio" name="q13" value="2">2</label>
+                                <label class="option-label"><input type="radio" name="q13" value="3">3</label>
+                                <label class="option-label"><input type="radio" name="q13" value="4">4</label>
+                                <label class="option-label"><input type="radio" name="q13" value="5">5</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <img src="https://images.unsplash.com/photo-1508962914676-134849a727f0?auto=format&fit=crop&w=400&q=80" alt="Gestión de Pausas" class="question-img">
+                        <div class="question-body">
+                            <p class="question-title">14. Gestión de Pausas: Utilizo intervalos de estudio con descansos estructurados (por ejemplo, 25-30 minutos de estudio por 5 de descanso) para mantener mi foco mental.</p>
+                            <div class="question-options" data-q="14">
+                                <label class="option-label"><input type="radio" name="q14" value="1">1</label>
+                                <label class="option-label"><input type="radio" name="q14" value="2">2</label>
+                                <label class="option-label"><input type="radio" name="q14" value="3">3</label>
+                                <label class="option-label"><input type="radio" name="q14" value="4">4</label>
+                                <label class="option-label"><input type="radio" name="q14" value="5">5</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=400&q=80" alt="Higiene del Sueño" class="question-img">
+                        <div class="question-body">
+                            <p class="question-title">15. Higiene del Sueño: Priorizo dormir entre 7 y 9 horas diarias, especialmente la noche previa a un examen importante.</p>
+                            <div class="question-options" data-q="15">
+                                <label class="option-label"><input type="radio" name="q15" value="1">1</label>
+                                <label class="option-label"><input type="radio" name="q15" value="2">2</label>
+                                <label class="option-label"><input type="radio" name="q15" value="3">3</label>
+                                <label class="option-label"><input type="radio" name="q15" value="4">4</label>
+                                <label class="option-label"><input type="radio" name="q15" value="5">5</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <img src="https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?auto=format&fit=crop&w=400&q=80" alt="Espacio de Trabajo" class="question-img">
+                        <div class="question-body">
+                            <p class="question-title">16. Acondicionamiento del Espacio: Estudio en un lugar limpio, con buena iluminación, sentado en un escritorio y fuera de la cama.</p>
+                            <div class="question-options" data-q="16">
+                                <label class="option-label"><input type="radio" name="q16" value="1">1</label>
+                                <label class="option-label"><input type="radio" name="q16" value="2">2</label>
+                                <label class="option-label"><input type="radio" name="q16" value="3">3</label>
+                                <label class="option-label"><input type="radio" name="q16" value="4">4</label>
+                                <label class="option-label"><input type="radio" name="q16" value="5">5</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-submit-diag" id="btn-calculate">Calcular mi Diagnóstico 🚀</button>
+            </form>
+
+            <div id="results-dashboard">
+                <div class="result-card">
+                    <span class="result-badge" id="res-badge">Categoría</span>
+                    <h3 id="res-profile-title" style="font-size: 1.8rem; margin-bottom: 0.5rem;">Perfil de Estudiante</h3>
+                    
+                    <div class="score-display">
+                        <span class="score-number" id="res-total-score">0</span>
+                        <span class="score-max">/ 80 Puntos</span>
+                    </div>
+
+                    <p id="res-description" style="font-size: 1.05rem; color: var(--text-color); margin-bottom: 1.5rem;"></p>
+
+                    <div class="modules-breakdown">
+                        <div class="mod-box">
+                            <h5>🧠 Módulo 1: Estrategias de Aprendizaje</h5>
+                            <p><strong id="mod1-score">0</strong> / 40 pts</p>
+                            <p id="mod1-feedback" style="margin-top: 0.4rem; font-size: 0.82rem;"></p>
+                        </div>
+
+                        <div class="mod-box">
+                            <h5>⏳ Módulo 2: Gestión de Tiempo y Entorno</h5>
+                            <p><strong id="mod2-score">0</strong> / 40 pts</p>
+                            <p id="mod2-feedback" style="margin-top: 0.4rem; font-size: 0.82rem;"></p>
+                        </div>
+                    </div>
+
+                    <div class="action-plan">
+                        <h4>🎯 Tu Técnica Recomendada Personalizada</h4>
+                        <p id="res-improvement" style="font-size: 0.95rem; color: var(--text-color); margin-bottom: 0.8rem;"></p>
+                        
+                        <div class="recommended-tech-box">
+                            <div>
+                                <h5 id="rec-tech-title">Nombre de la Técnica</h5>
+                                <p id="rec-tech-desc">Descripción breve de por qué se adapta a tu perfil.</p>
+                            </div>
+                            <a id="rec-tech-btn" href="#" class="btn-tech-link" target="_blank">Ver Técnica ➔</a>
+                        </div>
+                    </div>
+
+                    <button class="btn-retry" id="btn-retry">Volver a Intentar 🔄</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer hide-on-focus">
+        <div class="footer-quote-container">
+            <h3>💡 Frase Motivadora del Día</h3>
+            <blockquote id="daily-quote">Cargando frase...</blockquote>
+            <button class="btn-refresh-quote" id="refresh-quote-btn">Cambiar Frase 🔄</button>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Study Boost - Proyecto de Innovación BTH Sistemas Informáticos.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            function showToast(message) {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.textContent = message;
+                container.appendChild(toast);
+                setTimeout(() => { toast.remove(); }, 3000);
+            }
+
+            const themeBtn = document.getElementById('theme-btn');
+            const themeIcon = document.getElementById('theme-icon');
+            const root = document.documentElement;
+
+            const savedTheme = localStorage.getItem('sb-theme') || 'light';
+            setTheme(savedTheme, false);
+
+            themeBtn.addEventListener('click', () => {
+                const currentTheme = root.getAttribute('data-theme');
+                const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+                setTheme(nextTheme, true);
+            });
+
+            function setTheme(theme, notify = false) {
+                root.setAttribute('data-theme', theme);
+                localStorage.setItem('sb-theme', theme);
+                themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+                if(notify) showToast(`Modo ${theme === 'light' ? 'Claro Suave' : 'Oscuro Soft'} activado`);
+            }
+
+            const focusBtn = document.getElementById('focus-btn');
+            const exitFocusBtn = document.getElementById('exit-focus-btn');
+
+            focusBtn.addEventListener('click', () => {
+                document.body.classList.add('focus-mode');
+                showToast('Modo No Molestar Activado 🔕');
+            });
+
+            exitFocusBtn.addEventListener('click', () => {
+                document.body.classList.remove('focus-mode');
+                showToast('Has vuelto al modo normal 🔔');
+            });
+
+            const menuToggle = document.getElementById('menu-toggle');
+            const navbar = document.getElementById('navbar');
+            menuToggle.addEventListener('click', () => navbar.classList.toggle('open'));
+
+            const optionLabels = document.querySelectorAll('.option-label');
+            optionLabels.forEach(label => {
+                label.addEventListener('click', function() {
+                    const parent = this.parentElement;
+                    parent.querySelectorAll('.option-label').forEach(l => l.classList.remove('selected'));
+                    this.classList.add('selected');
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                });
+            });
+
+            const heroImages = [
+                'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1200&q=80',
+                'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=1200&q=80',
+                'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80'
+            ];
+            let heroIdx = 0;
+            const heroImgEl = document.getElementById('diag-hero-img');
+
+            setInterval(() => {
+                heroIdx = (heroIdx + 1) % heroImages.length;
+                heroImgEl.style.opacity = '0.1';
+                setTimeout(() => {
+                    heroImgEl.src = heroImages[heroIdx];
+                    heroImgEl.style.opacity = '0.35';
+                }, 300);
+            }, 6000);
+
+            // --- MATRIZ DE LAS 20 TÉCNICAS DEL CATÁLOGO ---
+            const catalogTechniques = [
+                // 0 - 3: Muy bajo rendimiento o perfiles muy particulares
+                { name: "Técnica Feynman", desc: "Ideal para simplificar conceptos abstractos y reparar lagunas de conocimiento.", url: "tecnicas de estudio/tecnica-feyman.html" },
+                { name: "Recordatorio Activo (Active Recall)", desc: "Excelente para poner a prueba tu cerebro sin mirar notas y fijar la memoria.", url: "tecnicas de estudio/active-recall.html" },
+                { name: "Repetición Espaciada (Spaced Repetition)", desc: "Programa repasos periódicos con flashcards para vencer la curva del olvido.", url: "tecnicas de estudio/spaced repetition.html" },
+                { name: "Método Cornell", desc: "Organiza tus apuntes en notas de clase, palabras clave y un resumen final claro.", url: "tecnicas de estudio/metodo cornell.html" },
+                
+                // 4 - 7: Perfiles de nivel medio-bajo en procesamiento
+                { name: "Mapas Mentales y Conceptualización Visual", desc: "Estimula el pensamiento asociativo conectando ideas mediante ramas y colores.", url: "tecnicas de estudio/mapas-mentales.html" },
+                { name: "Autoevaluación y Exámenes de Práctica", desc: "Resuelve simulacros para acostumbrarte a la presión y medir tu nivel real.", url: "tecnicas de estudio/autoevaluacion.html" },
+                { name: "Método de la Cadena / Mnemotecnia", desc: "Vincula datos rígidos con historias disparatadas o acrónimos sencillos.", url: "tecnicas de estudio/mnemotecnia.html" },
+                { name: "Método PQ4R", desc: "Aborda lecturas densas mediante 6 pasos metódicos de análisis y revisión.", url: "tecnicas de estudio/metodo-pq4r.html" },
+                
+                // 8 - 11: Perfiles equilibrados o con detalles de estructura
+                { name: "Cuadros Comparativos", desc: "Contrasta teorías y periodos históricos en matrices para distinguir semejanzas.", url: "tecnicas de estudio/cuadros-comparativos.html" },
+                { name: "Enseñanza Cruzada o Estudio en Grupo", desc: "Debata contenidos con compañeros para poner a prueba el dominio individual.", url: "tecnicas de estudio/ensenanza-cruzada.html" },
+                { name: "Técnica Pomodoro", desc: "Trabaja en bloques de 25 minutos con descansos breves para evitar fatiga.", url: "organizacion de tiempo/pomodoro.html" },
+                { name: "Matriz de Eisenhower", desc: "Clasifica tus tareas pendientes evaluando urgencia e importancia.", url: "organizacion de tiempo/matriz-eisenhower.html" },
+                
+                // 12 - 15: Perfiles avanzados / excelente gestión
+                { name: "Bloques de Tiempo (Time Blocking)", desc: "Reserva bloques fijos en tu agenda dedicados de forma exclusiva a una actividad.", url: "organizacion de tiempo/time-blocking.html" },
+                { name: "Método GTD (Getting Things Done)", desc: "Captura todos tus compromisos fuera de la mente en un sistema organizado.", url: "organizacion de tiempo/metodo-gtd.html" },
+                { name: "Comerse la Rana (Eat the Frog)", desc: "Afronta la tarea más intimidante en la primera hora del día para ganar impulso.", url: "organizacion de tiempo/comerse-la-rana.html" },
+                { name: "Regla de los 2 Minutos", desc: "Ejecuta inmediatamente aquellas tareas rápidas que toman menos de dos minutos.", url: "organizacion de tiempo/regla-2-minutos.html" },
+                
+                // 16 - 19: Perfiles de optimización y ultra-rendimiento
+                { name: "Agrupamiento de Tareas (Batching)", desc: "Reúne actividades repetitivas similares en una sola sesión continua.", url: "organizacion de tiempo/batching.html" },
+                { name: "Técnica Kanban", desc: "Utiliza un tablero visual por columnas para controlar el flujo de tus deberes.", url: "organizacion de tiempo/kanban.html" },
+                { name: "Regla del 80/20 (Principio de Pareto)", desc: "Identifica el 20% clave de las temáticas que generan el 80% de tus resultados.", url: "organizacion de tiempo/pareto.html" },
+                { name: "Listas de Verificación (Checklists)", desc: "Desglosa procesos largos en listas de pasos simples para no omitir detalles.", url: "organizacion de tiempo/checklists.html" }
+            ];
+
+            const btnCalculate = document.getElementById('btn-calculate');
+            const resultsDashboard = document.getElementById('results-dashboard');
+            const diagForm = document.getElementById('diag-form');
+
+            btnCalculate.addEventListener('click', () => {
+                let answers = {};
+                let missing = false;
+
+                for (let i = 1; i <= 16; i++) {
+                    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                    if (!selected) {
+                        missing = true;
+                        break;
+                    }
+                    answers[i] = parseInt(selected.value);
+                }
+
+                if (missing) {
+                    showToast('⚠️ Responde todas las preguntas para ver tu resultado');
+                    return;
+                }
+
+                // Inversión de preguntas pasivas (q2, q7, q12)
+                const reversedKeys = [2, 7, 12];
+                let adjustedAnswers = {};
+
+                for (let i = 1; i <= 16; i++) {
+                    if (reversedKeys.includes(i)) {
+                        adjustedAnswers[i] = 6 - answers[i];
+                    } else {
+                        adjustedAnswers[i] = answers[i];
+                    }
+                }
+
+                let mod1Score = 0;
+                for (let i = 1; i <= 8; i++) mod1Score += adjustedAnswers[i];
+
+                let mod2Score = 0;
+                for (let i = 9; i <= 16; i++) mod2Score += adjustedAnswers[i];
+
+                let totalScore = mod1Score + mod2Score;
+
+                document.getElementById('res-total-score').textContent = totalScore;
+                document.getElementById('mod1-score').textContent = mod1Score;
+                document.getElementById('mod2-score').textContent = mod2Score;
+
+                if (mod1Score < 20) {
+                    document.getElementById('mod1-feedback').textContent = "⚠️ Confundes 'entender' con 'saber'. Necesitas metodologías activas.";
+                } else {
+                    document.getElementById('mod1-feedback').textContent = "✅ Buen procesamiento activo de datos e interpretación de contenidos.";
+                }
+
+                if (mod2Score < 20) {
+                    document.getElementById('mod2-feedback').textContent = "⚠️ Logística débil. Necesitas planificar tiempo y controlar distractores.";
+                } else {
+                    document.getElementById('mod2-feedback').textContent = "✅ Excelente gestión del entorno, descanso y horarios.";
+                }
+
+                const resBadge = document.getElementById('res-badge');
+                const resTitle = document.getElementById('res-profile-title');
+                const resDesc = document.getElementById('res-description');
+                const resImprovement = document.getElementById('res-improvement');
+
+                if (totalScore >= 65) {
+                    resBadge.textContent = "Excelente";
+                    resBadge.style.backgroundColor = "rgba(34, 197, 94, 0.2)";
+                    resBadge.style.color = "#15803d";
+                    resTitle.textContent = "Estudiante Estratégico y Autónomo";
+                    resDesc.textContent = "Utilizas metodologías de aprendizaje avanzado y mantienes un control adecuado de tus tiempos.";
+                    resImprovement.textContent = "Para mantener tu nivel óptimo y refinar tus procesos, te sugerimos aplicar:";
+                } else if (totalScore >= 45) {
+                    resBadge.textContent = "Intermedio";
+                    resBadge.style.backgroundColor = "rgba(234, 179, 8, 0.2)";
+                    resBadge.style.color = "#a16207";
+                    resTitle.textContent = "Estudiante Funcional pero Ineficiente";
+                    resDesc.textContent = "Tienes intención, pero dependes de hábitos tradicionales o estudio de última hora.";
+                    resImprovement.textContent = "Para corregir tus puntos débiles y potenciar tus calificaciones, tu técnica clave es:";
+                } else {
+                    resBadge.textContent = "Atención Requerida";
+                    resBadge.style.backgroundColor = "rgba(239, 68, 68, 0.2)";
+                    resBadge.style.color = "#b91c1c";
+                    resTitle.textContent = "Estudiante en Riesgo / Reactivo";
+                    resDesc.textContent = "Tu método se basa en la improvisación y la urgencia, generando fatiga mental.";
+                    resImprovement.textContent = "Para superar esta etapa y estructurar tus hábitos desde cero, necesitas aplicar de inmediato:";
+                }
+
+                // --- ASIGNACIÓN ÚNICA Y GRANULAR DE LA TÉCNICA (0 a 19) ---
+                // Combinamos mod1, mod2 y una propiedad numérica basada en respuestas específicas (ej. q1 + q9)
+                // para garantizar que dos estudiantes con puntajes similares en total pero con distinta combinación reciban otra técnica.
+                let combinationFactor = (adjustedAnswers[1] + adjustedAnswers[9] + adjustedAnswers[4] + adjustedAnswers[13]) % 20;
+                let finalTechIndex = (Math.floor((totalScore / 80) * 19 + combinationFactor)) % 20;
+                
+                const selectedTech = catalogTechniques[finalTechIndex];
+
+                document.getElementById('rec-tech-title').textContent = selectedTech.name;
+                document.getElementById('rec-tech-desc').textContent = selectedTech.desc;
+                document.getElementById('rec-tech-btn').setAttribute('href', selectedTech.url);
+
+                diagForm.style.display = 'none';
+                resultsDashboard.style.display = 'block';
+                resultsDashboard.scrollIntoView({ behavior: 'smooth' });
+                showToast('Diagnóstico calculado con éxito ✨');
+            });
+
+            document.getElementById('btn-retry').addEventListener('click', () => {
+                resultsDashboard.style.display = 'none';
+                diagForm.style.display = 'block';
+                diagForm.reset();
+                document.querySelectorAll('.option-label').forEach(l => l.classList.remove('selected'));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            const quotes = [
+                '"El éxito es la suma de pequeños esfuerzos repetidos día tras día." — Robert Collier',
+                '"La disciplina es el puente entre tus metas y tus logros." — Jim Rohn',
+                '"El secreto para salir adelante es simplemente empezar." — Mark Twain',
+                '"Haz de cada día tu obra maestra." — John Wooden'
+            ];
+
+            const dailyQuoteEl = document.getElementById('daily-quote');
+            const refreshQuoteBtn = document.getElementById('refresh-quote-btn');
+
+            function setRandomQuote() {
+                dailyQuoteEl.textContent = quotes[Math.floor(Math.random() * quotes.length)];
+            }
+
+            refreshQuoteBtn.addEventListener('click', setRandomQuote);
+            setRandomQuote();
+        });
+    </script>
+</body>
+</html>

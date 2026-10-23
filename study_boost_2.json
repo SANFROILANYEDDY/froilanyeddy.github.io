@@ -1,0 +1,101 @@
+[
+{"type":"header","version":"5.2.1","comment":"Export to JSON plugin for PHPMyAdmin"},
+{"type":"database","name":"study_boost_2"},
+{"type":"table","name":"eventos_calendario","database":"study_boost_2","data":
+[
+{"id":"1","usuario_id":"1","fecha_evento":"2026-06-01","titulo_evento":"Examen de Matemáticas","descripcion":"Evaluación de álgebra y ecuaciones","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"2","usuario_id":"2","fecha_evento":"2026-06-02","titulo_evento":"Presentación de Historia","descripcion":"Exposición sobre la independencia","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"3","usuario_id":"3","fecha_evento":"2026-06-03","titulo_evento":"Feria de Ciencias","descripcion":"Entrega de proyectos de física y química","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"4","usuario_id":"4","fecha_evento":"2026-06-04","titulo_evento":"Práctica de Educación Física","descripcion":"Torneo intercurso de fútbol\/fútbol de salón","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"5","usuario_id":"5","fecha_evento":"2026-06-05","titulo_evento":"Examen de Literatura","descripcion":"Control de lectura del libro asignado","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"6","usuario_id":"6","fecha_evento":"2026-06-08","titulo_evento":"Prueba de Inglés","descripcion":"Evaluación de gramática y vocabulario","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"7","usuario_id":"7","fecha_evento":"2026-06-09","titulo_evento":"Entrega de Maqueta de Geografía","descripcion":"Presentación de relieve y capas de la tierra","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"8","usuario_id":"8","fecha_evento":"2026-06-10","titulo_evento":"Evaluación de Biología","descripcion":"Examen sobre el sistema humano y células","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"9","usuario_id":"9","fecha_evento":"2026-06-11","titulo_evento":"Práctica de Computación","descripcion":"Uso de herramientas ofimáticas (Excel y Word)","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"10","usuario_id":"10","fecha_evento":"2026-06-12","titulo_evento":"Olimpiadas de Matemáticas","descripcion":"Fase clasificatoria interna del colegio","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"11","usuario_id":"11","fecha_evento":"2026-06-15","titulo_evento":"Ensayo de la Promoción","descripcion":"Práctica para el acto de fin de año \/ desfile","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"12","usuario_id":"12","fecha_evento":"2026-06-16","titulo_evento":"Examen de Física","descripcion":"Prueba de vectores y cinemática","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"13","usuario_id":"13","fecha_evento":"2026-06-17","titulo_evento":"Entrega de Práctico de Química","descripcion":"Resolución de ejercicios de estequiometría","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"14","usuario_id":"14","fecha_evento":"2026-06-18","titulo_evento":"Exposición de Cívica","descripcion":"Debate sobre derechos y deberes ciudadanos","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"15","usuario_id":"15","fecha_evento":"2026-06-19","titulo_evento":"Examen de Cómputo","descripcion":"Práctica de diseño y programación básica","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"16","usuario_id":"16","fecha_evento":"2026-06-22","titulo_evento":"Campeonato Deportivo Escolar","descripcion":"Encuentros de básquetbol y voleibol","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"17","usuario_id":"17","fecha_evento":"2026-06-23","titulo_evento":"Revisión de Cuadernos","descripcion":"Presentación de apuntes del trimestre","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"18","usuario_id":"18","fecha_evento":"2026-06-24","titulo_evento":"Examen Final de Religión","descripcion":"Evaluación de valores y formación humana","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"19","usuario_id":"19","fecha_evento":"2026-06-25","titulo_evento":"Taller de Orientación Vocacional","descripcion":"Charla sobre opciones de carreras universitarias","fecha_creacion":"2026-10-20 18:29:40"},
+{"id":"20","usuario_id":"20","fecha_evento":"2026-06-26","titulo_evento":"Entrega de Libreta de Notas","descripcion":"Cierre de periodo escolar y entrega a padres","fecha_creacion":"2026-10-20 18:29:40"}
+]
+}
+,{"type":"table","name":"metas","database":"study_boost_2","data":
+[
+{"id":"1","usuario_id":"1","titulo":"Subir nota de Matemáticas","categoria":"Académico","descripcion":"Obtener más de 85 puntos en el siguiente examen de álgebra.","completado":"0","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"2","usuario_id":"2","titulo":"Leer un libro completo al mes","categoria":"Personal","descripcion":"Completar la lectura de una novela literaria asignada.","completado":"1","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"3","usuario_id":"3","titulo":"Entregar proyectos a tiempo","categoria":"Organización","descripcion":"No acumular tareas pendientes de física y química.","completado":"0","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"4","usuario_id":"4","titulo":"Mejorar en Inglés","categoria":"Académico","descripcion":"Practicar vocabulario nuevo durante 15 minutos diarios.","completado":"0","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"5","usuario_id":"5","titulo":"Organizar el escritorio de estudio","categoria":"Hábitos","descripcion":"Mantener ordenada la mesa y los cuadernos cada semana.","completado":"1","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"6","usuario_id":"6","titulo":"Participar en clase de Historia","categoria":"Participación","descripcion":"Hacer al menos dos preguntas o comentarios por clase.","completado":"0","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"7","usuario_id":"7","titulo":"Repasar Biología","categoria":"Académico","descripcion":"Hacer mapas conceptuales de los sistemas del cuerpo humano.","completado":"0","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"8","usuario_id":"8","titulo":"Dormir 8 horas diarias","categoria":"Salud","descripcion":"Apagar el celular temprano para descansar mejor antes de los exámenes.","completado":"1","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"9","usuario_id":"9","titulo":"Completar práctica de Química","categoria":"Académico","descripcion":"Resolver todos los ejercicios de balanceo de ecuaciones.","completado":"0","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"10","usuario_id":"10","titulo":"Preparar la feria de ciencias","categoria":"Proyecto","descripcion":"Avanzar con la maqueta y el informe con anticipación.","completado":"0","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"11","usuario_id":"11","titulo":"Asistir a clases de reforzamiento","categoria":"Académico","descripcion":"Repasar física los martes por la tarde.","completado":"1","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"12","usuario_id":"12","titulo":"Hacer resumen de Geografía","categoria":"Académico","descripcion":"Estudiar los mapas y capitales del continente.","completado":"0","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"13","usuario_id":"13","titulo":"Practicar computación","categoria":"Habilidad","descripcion":"Aprender funciones avanzadas de hojas de cálculo.","completado":"0","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"14","usuario_id":"14","titulo":"Mantener asistencia perfecta","categoria":"Asistencia","descripcion":"No faltar a ninguna clase durante el mes.","completado":"1","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"15","usuario_id":"15","titulo":"Estudiar para las olimpiadas","categoria":"Competencia","descripcion":"Resolver exámenes pasados de matemáticas.","completado":"0","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"16","usuario_id":"16","titulo":"Organizar apuntes por materias","categoria":"Organización","descripcion":"Utilizar carpetas separadas para cada asignatura.","completado":"1","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"17","usuario_id":"17","titulo":"Hacer actividad física","categoria":"Salud","descripcion":"Entrenar en el equipo de voleibol del colegio.","completado":"0","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"18","usuario_id":"18","titulo":"Repasar Cívica y Valores","categoria":"Académico","descripcion":"Leer sobre los derechos ciudadanos y la constitución.","completado":"0","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"19","usuario_id":"19","titulo":"Preparar orientación vocacional","categoria":"Futuro","descripcion":"Investigar sobre tres carreras universitarias de interés.","completado":"0","fecha_creacion":"2026-10-20 18:31:15"},
+{"id":"20","usuario_id":"20","titulo":"Cerrar trimestre con buenas notas","categoria":"General","descripcion":"Aprobar todas las materias del periodo escolar sin arrastrar pendientes.","completado":"1","fecha_creacion":"2026-10-20 18:31:15"}
+]
+}
+,{"type":"table","name":"recordatorios","database":"study_boost_2","data":
+[
+{"id":"1","usuario_id":"1","titulo":"Comprar calculadora científica","fecha_limite":"2026-06-01 17:00:00","prioridad":"alta","descripcion":"Necesaria para las clases de matemáticas y trigonometría.","completado":"0","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"2","usuario_id":"2","titulo":"Traer cartulina y marcadores","fecha_limite":"2026-06-02 08:00:00","prioridad":"media","descripcion":"Materiales para la exposición de historia.","completado":"1","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"3","usuario_id":"3","titulo":"Entregar tarea de física","fecha_limite":"2026-06-03 23:59:00","prioridad":"alta","descripcion":"Resolver los ejercicios de cinemática en la plataforma.","completado":"0","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"4","usuario_id":"4","titulo":"Llevar indumentaria deportiva","fecha_limite":"2026-06-04 07:30:00","prioridad":"baja","descripcion":"Polera y short para la clase de educación física.","completado":"0","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"5","usuario_id":"5","titulo":"Estudiar para control de literatura","fecha_limite":"2026-06-05 20:00:00","prioridad":"alta","descripcion":"Repasar los capítulos 3 y 4 del libro asignado.","completado":"0","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"6","usuario_id":"6","titulo":"Imprimir informe de laboratorio","fecha_limite":"2026-06-08 09:00:00","prioridad":"media","descripcion":"Llevar el reporte impreso con los resultados de química.","completado":"1","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"7","usuario_id":"7","titulo":"Traer diccionario de inglés","fecha_limite":"2026-06-09 08:30:00","prioridad":"baja","descripcion":"Requerido para la actividad de traducción en clase.","completado":"0","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"8","usuario_id":"8","titulo":"Anotar dudas de biología","fecha_limite":"2026-06-10 15:00:00","prioridad":"baja","descripcion":"Consultar sobre el sistema circulatorio al profesor.","completado":"0","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"9","usuario_id":"9","titulo":"Guardar archivo de práctica en USB","fecha_limite":"2026-06-11 14:00:00","prioridad":"media","descripcion":"Respaldar el trabajo práctico de computación.","completado":"1","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"10","usuario_id":"10","titulo":"Inscribirse a las olimpiadas","fecha_limite":"2026-06-12 18:00:00","prioridad":"alta","descripcion":"Entregar la planilla de inscripción firmada por un tutor.","completado":"0","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"11","usuario_id":"11","titulo":"Traer permiso firmado","fecha_limite":"2026-06-15 08:00:00","prioridad":"alta","descripcion":"Autorización para la visita guiada o actividad escolar.","completado":"1","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"12","usuario_id":"12","titulo":"Revisar fórmulas de física","fecha_limite":"2026-06-16 19:00:00","prioridad":"media","descripcion":"Memorizar las leyes de Newton para la prueba.","completado":"0","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"13","usuario_id":"13","titulo":"Comprar material de química","fecha_limite":"2026-06-17 16:00:00","prioridad":"baja","descripcion":"Tubos de ensayo y reactivos solicitados.","completado":"0","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"14","usuario_id":"14","titulo":"Preparar esquemas de cívica","fecha_limite":"2026-06-18 21:00:00","prioridad":"media","descripcion":"Resumen sobre los poderes del Estado.","completado":"0","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"15","usuario_id":"15","titulo":"Actualizar software en casa","fecha_limite":"2026-06-19 12:00:00","prioridad":"baja","descripcion":"Instalar el entorno de programación básico requerido.","completado":"1","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"16","usuario_id":"16","titulo":"Llevar agua y protector solar","fecha_limite":"2026-06-22 07:00:00","prioridad":"baja","descripcion":"Para el campeonato deportivo escolar al aire libre.","completado":"0","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"17","usuario_id":"17","titulo":"Organizar la mochila","fecha_limite":"2026-06-23 21:30:00","prioridad":"baja","descripcion":"Verificar tener todos los cuadernos del horario de mañana.","completado":"1","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"18","usuario_id":"18","titulo":"Traer Biblia o texto de religión","fecha_limite":"2026-06-24 08:00:00","prioridad":"baja","descripcion":"Para la clase de formación humana.","completado":"0","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"19","usuario_id":"19","titulo":"Llenar encuesta vocacional","fecha_limite":"2026-06-25 18:00:00","prioridad":"media","descripcion":"Completar el formulario de orientación profesional.","completado":"0","fecha_creacion":"2026-10-20 18:32:52"},
+{"id":"20","usuario_id":"20","titulo":"Firmar libreta de notas","fecha_limite":"2026-06-26 19:00:00","prioridad":"alta","descripcion":"Hacer firmar las calificaciones del trimestre por los padres.","completado":"0","fecha_creacion":"2026-10-20 18:32:52"}
+]
+}
+,{"type":"table","name":"usuarios","database":"study_boost_2","data":
+[
+{"id":"1","nombre":"admin","email":"admin@studyboost.com","password":"123","fecha_registro":"2026-10-07 00:37:45","nombre_usuario":"admin","correo":"admin@studyboost.com"},
+{"id":"2","nombre":"Juan Pérez","email":"juan.perez@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"jperez","correo":"juan.perez@email.com"},
+{"id":"3","nombre":"María Gómez","email":"maria.gomez@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"mgomez","correo":"maria.gomez@email.com"},
+{"id":"4","nombre":"Carlos López","email":"carlos.lopez@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"clopez","correo":"carlos.lopez@email.com"},
+{"id":"5","nombre":"Ana Martínez","email":"ana.martinez@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"amartinez","correo":"ana.martinez@email.com"},
+{"id":"6","nombre":"José Rodríguez","email":"jose.rodriguez@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"jrodriguez","correo":"jose.rodriguez@email.com"},
+{"id":"7","nombre":"Laura Fernández","email":"laura.fernandez@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"lfernandez","correo":"laura.fernandez@email.com"},
+{"id":"8","nombre":"Pedro Sánchez","email":"pedro.sanchez@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"psanchez","correo":"pedro.sanchez@email.com"},
+{"id":"9","nombre":"Carmen Ramírez","email":"carmen.ramirez@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"cramirez","correo":"carmen.ramirez@email.com"},
+{"id":"10","nombre":"Manuel Torres","email":"manuel.torres@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"mtorres","correo":"manuel.torres@email.com"},
+{"id":"11","nombre":"Sofía Flores","email":"sofia.flores@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"sflores","correo":"sofia.flores@email.com"},
+{"id":"12","nombre":"Jorge Acosta","email":"jorge.acosta@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"jacosta","correo":"jorge.acosta@email.com"},
+{"id":"13","nombre":"Lucía Benítez","email":"lucia.benitez@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"lbenitez","correo":"lucia.benitez@email.com"},
+{"id":"14","nombre":"Miguel Vera","email":"miguel.vera@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"mvera","correo":"miguel.vera@email.com"},
+{"id":"15","nombre":"Elena Medina","email":"elena.medina@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"emedina","correo":"elena.medina@email.com"},
+{"id":"16","nombre":"Francisco Rojas","email":"francisco.rojas@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"frojas","correo":"francisco.rojas@email.com"},
+{"id":"17","nombre":"Teresa Giménez","email":"teresa.gimenez@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"tgimenez","correo":"teresa.gimenez@email.com"},
+{"id":"18","nombre":"David Ortiz","email":"david.ortiz@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"dortiz","correo":"david.ortiz@email.com"},
+{"id":"19","nombre":"Patricia Silva","email":"patricia.silva@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"psilva","correo":"patricia.silva@email.com"},
+{"id":"20","nombre":"Gabriel Mendoza","email":"gabriel.mendoza@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"gmendoza","correo":"gabriel.mendoza@email.com"},
+{"id":"21","nombre":"Rosa Cáceres","email":"rosa.caceres@email.com","password":"pass123","fecha_registro":"2026-10-20 18:24:15","nombre_usuario":"rcaceres","correo":"rosa.caceres@email.com"}
+]
+}
+]

@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Boost | Técnicas de Estudio y Productividad</title>
+    <style>
+        /* --- PALETA DE COLORES Y ESTILOS BASE --- */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        }
+
+        :root[data-theme="light"] {
+            --bg-color: #f1f5f9;
+            --surface-color: #ffffff;
+            --surface-border: #e2e8f0;
+            
+            --text-color: #0f172a;
+            --text-muted: #475569;
+
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-light: #eef2ff;
+            --accent-purple: #8b5cf6;
+
+            --card-hover-bg: #f8fafc;
+            --shadow: 0 4px 20px -2px rgba(148, 163, 184, 0.15);
+            --shadow-hover: 0 20px 30px -10px rgba(99, 102, 241, 0.22);
+            --badge-bg: #e0e7ff;
+            --badge-text: #3730a3;
+        }
+
+        :root[data-theme="dark"] {
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --surface-border: #334155;
+
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+
+            --primary-color: #818cf8;
+            --primary-hover: #6366f1;
+            --primary-light: #1e1b4b;
+            --accent-purple: #c084fc;
+
+            --card-hover-bg: #243347;
+            --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 20px 35px -10px rgba(129, 140, 248, 0.3);
+            --badge-bg: #312e81;
+            --badge-text: #c7d2fe;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- MODO NO MOLESTAR --- */
+        body.focus-mode .hide-on-focus {
+            display: none !important;
+        }
+
+        .focus-banner {
+            display: none;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-purple));
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            position: sticky;
+            top: 0;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        body.focus-mode .focus-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 5%;
+        }
+
+        .btn-exit-focus {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* --- TOAST NOTIFICATIONS --- */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            border-left: 4px solid var(--primary-color);
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar-header {
+            background-color: var(--surface-color);
+            border-bottom: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.9rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-color);
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .navbar {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            color: var(--text-muted);
+            padding: 0.5rem 0.9rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn:hover {
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+
+        .nav-btn.active {
+            background-color: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .action-btn {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 0.5rem 0.85rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 600;
+        }
+
+        .action-btn:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 24px;
+            height: 3px;
+            background-color: var(--text-color);
+            border-radius: 3px;
+        }
+
+        /* --- HERO / PRESENTACIÓN --- */
+        main {
+            flex: 1;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+            width: 100%;
+        }
+
+        .hero-banner {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+            border-radius: 24px;
+            border: 1px solid var(--surface-border);
+            margin-bottom: 3rem;
+        }
+
+        .hero-banner h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--text-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-banner p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 780px;
+            margin: 0 auto 1.5rem auto;
+            line-height: 1.7;
+        }
+
+        .filter-pills {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .pill-btn {
+            border: 1px solid var(--surface-border);
+            background: var(--surface-color);
+            color: var(--text-muted);
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .pill-btn.active, .pill-btn:hover {
+            background: var(--primary-color);
+            color: #ffffff;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* --- SECCIONES Y CONTENEDOR HORIZONTAL --- */
+        .category-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-color);
+            margin: 3rem 0 1.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 3px solid var(--surface-border);
+        }
+
+        .category-title span.icon-badge {
+            background: var(--primary-light);
+            color: var(--primary-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 12px;
+            font-size: 1.2rem;
+        }
+
+        .cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.4rem;
+        }
+
+        /* --- TARJETA HORIZONTAL ULTRA DINÁMICA --- */
+        .card-horizontal {
+            text-decoration: none;
+            color: inherit;
+            background-color: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: 20px;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            position: relative;
+            transform: scale(1);
+            will-change: transform, box-shadow, border-color, background-color;
+            transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* HOVER: Agrandamiento + Cambio de Color Dinámico */
+        .card-horizontal:hover {
+            transform: scale(1.025) translateY(-4px);
+            background-color: var(--card-hover-bg);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-hover);
+            z-index: 5;
+        }
+
+        .card-horizontal:hover .card-img-wrapper img {
+            transform: scale(1.1) rotate(1deg);
+        }
+
+        .card-horizontal:hover .card-title {
+            color: var(--primary-color);
+        }
+
+        .card-horizontal:hover .btn-link {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            padding-left: 1.2rem;
+            padding-right: 1.2rem;
+        }
+
+        .card-horizontal:hover .btn-link span {
+            transform: translateX(5px);
+        }
+
+        /* IMAGEN DE LA TARJETA */
+        .card-img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 170px;
+            overflow: hidden;
+            background: #cbd5e1;
+        }
+
+        .card-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card-tag {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(8px);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* CONTENIDO DE LA TARJETA */
+        .card-info {
+            padding: 1.5rem 1.8rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .card-title {
+            font-size: 1.28rem;
+            font-weight: 700;
+            color: var(--text-color);
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+
+        .card-meta-badge {
+            background-color: var(--badge-bg);
+            color: var(--badge-text);
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+        }
+
+        .card-footer-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px dashed var(--surface-border);
+            padding-top: 0.8rem;
+        }
+
+        .card-benefit {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 600;
+        }
+
+        .btn-link {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            font-size: 0.88rem;
+            font-weight: 700;
+            padding: 0.45rem 0.95rem;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-link span {
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            background-color: var(--surface-color);
+            border-top: 1px solid var(--surface-border);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            margin-top: 4rem;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 850px) {
+            .card-horizontal {
+                grid-template-columns: 1fr;
+            }
+            .card-img-wrapper {
+                height: 180px;
+            }
+            .menu-toggle { display: flex; }
+            .navbar {
+                display: none;
+                position: absolute;
+                top: 100%; left: 0; width: 100%;
+                background-color: var(--surface-color);
+                flex-direction: column;
+                padding: 1rem;
+                border-bottom: 1px solid var(--surface-border);
+            }
+            .navbar.open { display: flex; }
+            .hero-banner h2 { font-size: 1.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="focus-banner" id="focus-banner">
+        <span>🔕 Modo "No Molestar" Activado — Espacio libre de distracciones</span>
+        <button class="btn-exit-focus" id="exit-focus-btn">Salir de Modo Foco</button>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <header class="navbar-header hide-on-focus">
+        <div class="logo">
+            <h1>Study<span>Boost</span></h1>
+        </div>
+
+        <div class="nav-controls">
+            <button class="action-btn" id="focus-btn" title="Modo No Molestar">
+                <span>🔕</span> <small>No Molestar</small>
+            </button>
+
+            <button class="action-btn" id="theme-btn" title="Cambiar tema visual">
+                <span id="theme-icon">🌙</span>
+            </button>
+
+            <button class="menu-toggle" id="menu-toggle" aria-label="Abrir Menú">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+
+        <nav class="navbar" id="navbar">
+            <a href="introduccion.php" class="nav-btn">Inicio</a>
+            <a href="tecnicas.html" class="nav-btn active">Técnicas</a>
+            <a href="calendario.php" class="nav-btn">Calendario</a>
+            <a href="videos.html" class="nav-btn">Videos</a>
+            <a href="recordatorio.php" class="nav-btn">Recordatorio</a>
+            <a href="metas.php" class="nav-btn">Metas</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-banner hide-on-focus">
+            <h2>Catálogo Interactivo de Técnicas</h2>
+            <p>
+                Descubre métodos probados científicamente para acelerar tu aprendizaje, memorizar a largo plazo y multiplicar tu productividad diaria. Pasa el cursor sobre cualquier técnica para explorar.
+            </p>
+            <div class="filter-pills">
+                <button class="pill-btn active" onclick="filterCategory('all')">✨ Todas (20)</button>
+                <button class="pill-btn" onclick="filterCategory('estudio')">🧠 Retención y Aprendizaje (10)</button>
+                <button class="pill-btn" onclick="filterCategory('tiempo')">⏱️ Tiempo y Productividad (10)</button>
+            </div>
+        </section>
+
+        <section id="sec-estudio">
+            <h3 class="category-title">
+                <span class="icon-badge">🧠</span>
+                1. Técnicas de Estudio (Procesamiento y Retención)
+            </h3>
+            
+            <div class="cards-list">
+
+                <a href="tecnicas de estudio/tecnica-feyman.html" class="card-horizontal" data-cat="estudio">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Explicación</span>
+                        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=600&q=80" alt="Técnica Feynman">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Técnica Feynman</h4>
+                                <span class="card-meta-badge">Comprensión Profunda</span>
+                            </div>
+                            <p class="card-desc">Explicar un tema complejo con palabras extremadamente sencillas, como si se lo enseñaras a un niño, para detectar y reparar lagunas de conocimiento de forma instantánea.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">🎯 Ideal para: Conceptos difíciles y teoría</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="tecnicas de estudio/active-recall.html" class="card-horizontal" data-cat="estudio">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Evaluación</span>
+                        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80" alt="Active Recall">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Recordatorio Activo (Active Recall)</h4>
+                                <span class="card-meta-badge">Memoria Activa</span>
+                            </div>
+                            <p class="card-desc">Poner a prueba tu cerebro intentando recuperar la información de la memoria sin mirar los apuntes, mediante preguntas clave y autoevaluaciones continuas.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">⚡ Ideal para: Fijación duradera y exámenes</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="tecnicas de estudio/spaced repetition.html" class="card-horizontal" data-cat="estudio">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Repaso</span>
+                        <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=600&q=80" alt="Repetición Espaciada">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Repetición Espaciada (Spaced Repetition)</h4>
+                                <span class="card-meta-badge">Largo Plazo</span>
+                            </div>
+                            <p class="card-desc">Programar repasos en intervalos de tiempo cada vez más largos apoyándote en fichas de estudio (flashcards) para vencer la curva del olvido para siempre.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">🎴 Ideal para: Vocabulario, datos e idiomas</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="tecnicas de estudio/metodo cornell.html" class="card-horizontal" data-cat="estudio">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Apuntes</span>
+                        <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=600&q=80" alt="Método Cornell">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Método Cornell</h4>
+                                <span class="card-meta-badge">Organización</span>
+                            </div>
+                            <p class="card-desc">Dividir la hoja de apuntes en tres secciones sistemáticas: notas de clase, palabras clave / preguntas guía en el margen y un resumen sintetizado en la parte inferior.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">📐 Ideal para: Clases magistrales y síntesis</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="tecnicas de estudio/mapas-mentales.html" class="card-horizontal" data-cat="estudio">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Visual</span>
+                        <img src="https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?auto=format&fit=crop&w=600&q=80" alt="Mapas Mentales">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Mapas Mentales y Conceptualización Visual</h4>
+                                <span class="card-meta-badge">Creatividad</span>
+                            </div>
+                            <p class="card-desc">Conectar la idea central con conceptos secundarios mediante ramificaciones, códigos de color, diagramas e imágenes para estimular el pensamiento asociativo.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">🎨 Ideal para: Estudiantes visuales y repasos</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="tecnicas de estudio/autoevaluacion.html" class="card-horizontal" data-cat="estudio">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Simulacro</span>
+                        <img src="https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?auto=format&fit=crop&w=600&q=80" alt="Autoevaluación">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Autoevaluación y Exámenes de Práctica</h4>
+                                <span class="card-meta-badge">Rendimiento</span>
+                            </div>
+                            <p class="card-desc">Resolver simulacros cronometrados o cuestionarios anteriores para acostumbrarte a la presión del examen, ganar agilidad y medir tu nivel real de preparación.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">📝 Ideal para: Reducir ansiedad ante pruebas</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="tecnicas de estudio/mnemotecnia.html" class="card-horizontal" data-cat="estudio">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Asociación</span>
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80" alt="Mnemotecnia">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Método de la Cadena / Mnemotecnia</h4>
+                                <span class="card-meta-badge">Memorización</span>
+                            </div>
+                            <p class="card-desc">Vincular conceptos rígidos, fórmulas o listas con historias disparatadas, acrónimos, rimas o imágenes mentales absurdas que facilitan la memorización rápida.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">🔗 Ideal para: Listas, fechas y terminología</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="tecnicas de estudio/metodo-pq4r.html" class="card-horizontal" data-cat="estudio">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Lectura</span>
+                        <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=600&q=80" alt="Método PQ4R">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Método PQ4R</h4>
+                                <span class="card-meta-badge">Lectura Analítica</span>
+                            </div>
+                            <p class="card-desc">Abordar textos complejos en 6 pasos metódicos: Vista previa (Preview), Cuestionar (Question), Leer (Read), Reflexionar (Reflect), Recitar (Recite) y Repasar (Review).</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">📚 Ideal para: Libros densos y artículos</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="tecnicas de estudio/cuadros-comparativos.html" class="card-horizontal" data-cat="estudio">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Estructura</span>
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" alt="Cuadros Comparativos">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Cuadros Comparativos y Matrimonios de Conceptos</h4>
+                                <span class="card-meta-badge">Análisis</span>
+                            </div>
+                            <p class="card-desc">Sintetizar y contrastar dos o más teorías, autores o períodos históricos en matrices organizadas para distinguir semejanzas y diferencias a simple vista.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">📊 Ideal para: Filosofía, Historia y Ciencias</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="tecnicas de estudio/ensenanza-cruzada.html" class="card-horizontal" data-cat="estudio">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Colaborativo</span>
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80" alt="Estudio en Grupo">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Enseñanza Cruzada o Estudio en Grupo</h4>
+                                <span class="card-meta-badge">Social</span>
+                            </div>
+                            <p class="card-desc">Debatir temas y explicarse mutuamente los contenidos entre compañeros de estudio para poner a prueba el dominio individual y reforzar la comprensión colectiva.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">👥 Ideal para: Proyectos e intercambio de ideas</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+
+        <section id="sec-tiempo">
+            <h3 class="category-title">
+                <span class="icon-badge">⏱️</span>
+                2. Organización del Tiempo y Productividad
+            </h3>
+
+            <div class="cards-list">
+
+                <a href="organizacion de tiempo/pomodoro.html" class="card-horizontal" data-cat="tiempo">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Enfoque</span>
+                        <img src="https://images.unsplash.com/photo-1508962914676-134849a727f0?auto=format&fit=crop&w=600&q=80" alt="Técnica Pomodoro">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Técnica Pomodoro</h4>
+                                <span class="card-meta-badge">Bloques de Enfoque</span>
+                            </div>
+                            <p class="card-desc">Trabajar con concentración absoluta durante 25 minutos seguidos de 5 minutos de descanso. Después de 4 ciclos, tomar una pausa extendida de 15 a 30 minutos.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">🍅 Ideal para: Evitar el agotamiento mental</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="organizacion de tiempo/matriz-eisenhower.html" class="card-horizontal" data-cat="tiempo">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Prioridades</span>
+                        <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=600&q=80" alt="Matriz de Eisenhower">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Matriz de Eisenhower</h4>
+                                <span class="card-meta-badge">Clasificación</span>
+                            </div>
+                            <p class="card-desc">Categorizar tareas pendientes en cuatro cuadrantes evaluando su nivel de urgencia e importancia: Hacer ya, Programar, Delegar o Eliminar por completo.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">📐 Ideal para: Tomar decisiones y priorizar</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="organizacion de tiempo/time-blocking.html" class="card-horizontal" data-cat="tiempo">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Agenda</span>
+                        <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=600&q=80" alt="Time Blocking">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Bloques de Tiempo (Time Blocking)</h4>
+                                <span class="card-meta-badge">Planificación</span>
+                            </div>
+                            <p class="card-desc">Reservar bloques fijos en tu calendario diario dedicados exclusivamente a una única actividad, protegiendo ese horario contra interrupciones.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">🧱 Ideal para: Estructurar jornadas complejas</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="organizacion de tiempo/metodo-gtd.html" class="card-horizontal" data-cat="tiempo">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Sistema</span>
+                        <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=600&q=80" alt="Método GTD">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Método GTD (Getting Things Done)</h4>
+                                <span class="card-meta-badge">Paz Mental</span>
+                            </div>
+                            <p class="card-desc">Capturar todos los compromisos fuera de tu mente en un sistema confiable, procesar qué requieren y organizarlos en listas de acción concretas.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">📥 Ideal para: Reducir el estrés sobrecargado</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="organizacion de tiempo/comerse-la-rana.html" class="card-horizontal" data-cat="tiempo">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Disciplina</span>
+                        <img src="https://images.unsplash.com/photo-1471107340929-a87cd0f5b5f3?auto=format&fit=crop&w=600&q=80" alt="Eat the Frog">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Comerse la Rana (Eat the Frog)</h4>
+                                <span class="card-meta-badge">Anti-Procrastinación</span>
+                            </div>
+                            <p class="card-desc">Afrontar y terminar la tarea más intimidante o importante en la primera hora del día, asegurando un impulso de satisfacción y alivio para el resto de la jornada.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">🐸 Ideal para: Vencer la postergación</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="organizacion de tiempo/regla-2-minutos.html" class="card-horizontal" data-cat="tiempo">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Agilidad</span>
+                        <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80" alt="Regla 2 Minutos">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Regla de los 2 Minutos</h4>
+                                <span class="card-meta-badge">Acción Inmediata</span>
+                            </div>
+                            <p class="card-desc">Si una tarea pendiente te toma menos de dos minutos ejecutarla (como responder un mensaje o guardar un archivo), hazla inmediatamente sin agendarla.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">⚡ Ideal para: Evitar acumulación de pequeñeces</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="organizacion de tiempo/batching.html" class="card-horizontal" data-cat="tiempo">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Agrupamiento</span>
+                        <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=600&q=80" alt="Agrupamiento de Tareas">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Agrupamiento de Tareas (Batching)</h4>
+                                <span class="card-meta-badge">Eficiencia</span>
+                            </div>
+                            <p class="card-desc">Reunir actividades repetitivas de naturaleza similar para realizarlas en una sola sesión continua, reduciendo la fatiga por cambio de contexto.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">📦 Ideal para: Correos, llamadas y trámites</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="organizacion de tiempo/kanban.html" class="card-horizontal" data-cat="tiempo">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Tablero</span>
+                        <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?auto=format&fit=crop&w=600&q=80" alt="Técnica Kanban">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Técnica Kanban</h4>
+                                <span class="card-meta-badge">Flujo Visual</span>
+                            </div>
+                            <p class="card-desc">Utilizar un tablero visual estructurado en columnas (Por Hacer, En Proceso, Concluido) moviendo tarjetas para tener control total del flujo de trabajo.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">📋 Ideal para: Trabajos en grupo y proyectos</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="organizacion de tiempo/pareto.html" class="card-horizontal" data-cat="tiempo">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Estrategia</span>
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" alt="Principio de Pareto">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Regla del 80/20 (Principio de Pareto)</h4>
+                                <span class="card-meta-badge">Máximo Impacto</span>
+                            </div>
+                            <p class="card-desc">Identificar el 20% clave de las temáticas o actividades que generan el 80% de tus resultados académicos y volcar en ellas tu mayor esfuerzo cognitivo.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">🎯 Ideal para: Optimizar el tiempo de estudio</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="organizacion de tiempo/checklists.html" class="card-horizontal" data-cat="tiempo">
+                    <div class="card-img-wrapper">
+                        <span class="card-tag">Verificación</span>
+                        <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=600&q=80" alt="Listas de Verificación">
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <div class="card-header-row">
+                                <h4 class="card-title">Listas de Verificación (Checklists)</h4>
+                                <span class="card-meta-badge">Paso a Paso</span>
+                            </div>
+                            <p class="card-desc">Desglosar procesos complejos en una lista detallada de pasos simples para comprobar el progreso sin omitir ningún detalle esencial.</p>
+                        </div>
+                        <div class="card-footer-row">
+                            <span class="card-benefit">✅ Ideal para: Proyectos largos e investigación</span>
+                            <span class="btn-link">Aprender Técnica <span>➔</span></span>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer hide-on-focus">
+        <p>&copy; 2026 Study Boost - Proyecto de Innovación BTH Sistemas Informáticos.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            function showToast(message) {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.textContent = message;
+                container.appendChild(toast);
+                setTimeout(() => { toast.remove(); }, 3000);
+            }
+            const themeBtn = document.getElementById('theme-btn');
+            const themeIcon = document.getElementById('theme-icon');
+            const root = document.documentElement;
+
+            const savedTheme = localStorage.getItem('sb-theme') || 'light';
+            setTheme(savedTheme, false);
+
+            themeBtn.addEventListener('click', () => {
+                const currentTheme = root.getAttribute('data-theme');
+                const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+                setTheme(nextTheme, true);
+            });
+
+            function setTheme(theme, notify = false) {
+                root.setAttribute('data-theme', theme);
+                localStorage.setItem('sb-theme', theme);
+                themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+                if(notify) showToast(`Modo ${theme === 'light' ? 'Claro' : 'Oscuro'} activado`);
+            }
+
+            const focusBtn = document.getElementById('focus-btn');
+            const exitFocusBtn = document.getElementById('exit-focus-btn');
+
+            focusBtn.addEventListener('click', () => {
+                document.body.classList.add('focus-mode');
+                showToast('Modo No Molestar Activado 🔕');
+            });
+
+            exitFocusBtn.addEventListener('click', () => {
+                document.body.classList.remove('focus-mode');
+                showToast('Has vuelto al modo normal 🔔');
+            });
+
+            const menuToggle = document.getElementById('menu-toggle');
+            const navbar = document.getElementById('navbar');
+            menuToggle.addEventListener('click', () => navbar.classList.toggle('open'));
+
+            window.filterCategory = function(category) {
+                const pills = document.querySelectorAll('.pill-btn');
+                pills.forEach(p => p.classList.remove('active'));
+                event.currentTarget.classList.add('active');
+
+                const secEstudio = document.getElementById('sec-estudio');
+                const secTiempo = document.getElementById('sec-tiempo');
+
+                if (category === 'all') {
+                    secEstudio.style.display = 'block';
+                    secTiempo.style.display = 'block';
+                } else if (category === 'estudio') {
+                    secEstudio.style.display = 'block';
+                    secTiempo.style.display = 'none';
+                } else if (category === 'tiempo') {
+                    secEstudio.style.display = 'none';
+                    secTiempo.style.display = 'block';
+                }
+            };
+        });
+    </script>
+</body>
+</html>
